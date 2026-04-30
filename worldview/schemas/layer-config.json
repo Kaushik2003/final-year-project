@@ -1,0 +1,603 @@
+{
+  "$id": "https://worldview.earthdata.nasa.gov/layer-config",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Layer Configuration",
+  "description": "Layer Configuration Schema",
+  "type": "object",
+  "properties": {
+    "layers": {
+      "type": "object",
+      "patternProperties": {
+        "^.": {
+          "$ref": "#/definitions/layer"
+        }
+      }
+    }
+  },
+  "definitions": {
+    "layer": {
+      "type": "object",
+      "required": [
+        "group"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "description": "TODO only allow/require for WMS?",
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "subtitle": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "tags": {
+          "type": "string"
+        },
+        "disableSnapshot": {
+          "type": "boolean"
+        },
+        "sourceOverride": {
+          "type": "string"
+        },
+        "group": {
+          "type": "string",
+          "enum": [
+            "overlays",
+            "baselayers"
+          ]
+        },
+        "layergroup": {
+          "type": "string",
+          "enum": [
+            "Absolute Dynamic Topography",
+            "Aboveground Biomass",
+            "Aerosol Albedo",
+            "Aerosol Extinction",
+            "Aerosol Index",
+            "Aerosol Optical Depth",
+            "Aerosol Type",
+            "Albedo",
+            "Amphibian Richness",
+            "Areas of No Data (mask)",
+            "Blue Marble",
+            "Brightness Temperature",
+            "Canopy Characteristics",
+            "Carbon Dioxide",
+            "Carbon Monoxide",
+            "Chlorophyll a",
+            "Cirrus Reflectance",
+            "Clear Sky Confidence",
+            "Cloud Albedo",
+            "Cloud Effective Radius",
+            "Cloud Fraction",
+            "Cloud Liquid Water",
+            "Cloud Multi Layer Flag",
+            "Cloud Optical Thickness",
+            "Cloud Phase",
+            "Cloud Pressure",
+            "Cloud Top Height",
+            "Cloud Top Temperature",
+            "Cloud Water Path",
+            "Convective Rainwater Source",
+            "Corrected Reflectance",
+            "Cyclone Hazard",
+            "DHR Reflectance",
+            "AERONET_AOD_500NM",
+            "AERONET_ANGSTROM_440-870NM",
+            "DAILY_AERONET_AOD_500NM",
+            "DAILY_AERONET_ANGSTROM_440-870NM",
+            "Dams",
+            "Drought Hazard",
+            "Dust",
+            "Earth at Night",
+            "Evaporation",
+            "FPAR",
+            "Flood",
+            "Faraday Rotation",
+            "Granules",
+            "Precipitation Rate - Featured",
+            "Sea Surface Temperature - Featured",
+            "Fires and Thermal Anomalies",
+            "Flood Hazard",
+            "Forests, Mangrove",
+            "Formaldehyde",
+            "Freeze/Thaw",
+            "Frozen Area",
+            "Geostationary",
+            "Global Digital Elevation Map",
+            "Gross Primary Productivity",
+            "Heterotrophic Respiration",
+            "Human Built-up And Settlement Extent",
+            "Human Footprint",
+            "Ice Surface Temperature",
+            "Ice Velocity Antarctica",
+            "Ice Velocity Greenland",
+            "Impervious Surface",
+            "Isotropic Kernel Parameters",
+            "Land Cover",
+            "Land Surface Reflectance",
+            "Land Surface Temperature",
+            "Landslide Hazard",
+            "Latitude-Longitude Lines",
+            "Leaf Area Index",
+            "Lidar",
+            "Lightning",
+            "Liquid Water Equivalent",
+            "Mammal Richness",
+            "Methane",
+            "Moisture Indices",
+            "Net Ecosystem CO2 Exchange",
+            "Net Migration",
+            "Nitric Acid",
+            "Nitrogen Dioxide",
+            "Nitrous Oxide",
+            "Open Water Latent Energy Flux",
+            "Orbital Track",
+            "Outgoing Radiation",
+            "Ozone",
+            "Particulate Matter",
+            "Photosynthesis, Net",
+            "Photosynthetically Available Radiation",
+            "Population Density",
+            "Power Plants, Nuclear",
+            "Precipitation Estimate",
+            "Precipitation Rate",
+            "Radiance",
+            "Radiation",
+            "Reference",
+            "Reflectance",
+            "Relative Humidity",
+            "Reservoirs",
+            "RTC SAR Backscatter",
+            "Sea Ice Brightness Temperature",
+            "Sea Ice",
+            "Sea Surface Currents",
+            "Sea Surface Height Anomalies",
+            "Sea Surface Salinity",
+            "Sea Surface Temperature Anomalies",
+            "Sea Surface Temperature",
+            "Settlements",
+            "Sigma0",
+            "Snow Cover",
+            "Snow Depth",
+            "Snow Extent",
+            "Snow Indices",
+            "Snow Mass",
+            "Snow Water Equivalent",
+            "Socioeconomic",
+            "Soil Moisture",
+            "Soil Temperature",
+            "Solar Induced Chlorophyll Fluorescence",
+            "Suborbital Flight Tracks",
+            "Suborbital Ship Tracks",
+            "Sulfur Dioxide",
+            "Surface Albedo",
+            "Surface Flux",
+            "Surface Pressure",
+            "Surface Water Extent",
+            "TOA Albedo",
+            "TOA Flux",
+            "Terrain Elevation",
+            "Temperature",
+            "Urban Expansion",
+            "Urban Extents",
+            "Vectors",
+            "Vegetation Disturbance Status",
+            "Vegetation Indices",
+            "Vegetation Light Use Efficiency",
+            "Volcano Hazard",
+            "Water Bodies",
+            "Water Indices",
+            "Water Vapor",
+            "Wind Speed"
+          ]
+        },
+        "enableCMRDataFinder": {
+          "type": "boolean"
+        },
+        "collectionConceptID": {
+          "type": "string"
+        },
+        "clickDisabledFeatures": {
+          "type": "array"
+        },
+        "modalShouldFollowClicks": {
+          "type": "boolean"
+        },
+        "palette": {
+          "$ref": "#/definitions/palette"
+        },
+        "projections": {
+          "$ref": "#/definitions/projections"
+        },
+        "type": {
+          "$ref": "#/definitions/type"
+        },
+        "format": {
+          "$ref": "#/definitions/format"
+        },
+        "period": {
+          "type": "string",
+          "enum": [
+            "subdaily",
+            "daily",
+            "monthly",
+            "yearly"
+          ]
+        },
+        "orbitTracks": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "orbitDirection": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "$ref": "#/definitions/orbitDirection"
+          }
+        },
+        "bandCombo": {
+          "type": "object",
+          "properties": {
+            "assets": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "expression": {
+              "type": "string"
+            },
+            "rescale": {
+              "type": "string"
+            },
+            "colormap_name": {
+              "type": "string"
+            },
+            "bands_regex": {
+              "type": "string"
+            }
+          }
+        },
+        "count": {
+          "type": "number"
+        },
+        "ongoing": {
+          "type": "boolean"
+        },
+        "dataAvailability": {
+          "$ref": "#/definitions/dataAvailability"
+        },
+        "startDate": {
+          "$ref": "#/definitions/date"
+        },
+        "endDate": {
+          "$ref": "#/definitions/date"
+        },
+        "granuleDateRanges": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "$ref": "#/definitions/date"
+            }
+          }
+        },
+        "tempoDateRanges": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "$ref": "#/definitions/date"
+            }
+          }
+        },
+        "shiftadjacentdays": {
+          "type": "boolean"
+        },
+        "futureTime": {
+          "type": "string",
+          "pattern": "^[1-9][DMY]$"
+        },
+        "transition": {
+          "type": "boolean"
+        },
+        "noTransition": {
+          "type": "boolean"
+        },
+        "serviceName": {
+          "type": "string"
+        },
+        "tiles": {
+          "type": "array"
+        },
+        "vectorStyle": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "arctic": {
+              "$ref": "#/definitions/vectorStyle"
+            },
+            "antarctic": {
+              "$ref": "#/definitions/vectorStyle"
+            },
+            "geographic": {
+              "$ref": "#/definitions/vectorStyle"
+            },
+            "webmerc": {
+              "$ref": "#/definitions/vectorStyle"
+            }
+          }
+        },
+        "disableCustomPalettes": {
+          "type": "boolean"
+        },
+        "breakPointLayer": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "type": {
+              "$ref": "#/definitions/type"
+            },
+            "format": {
+              "$ref": "#/definitions/format"
+            },
+            "breakpointType": {
+              "type": "string"
+            },
+            "projections": {
+              "$ref": "#/definitions/projections"
+            }
+          }
+        },
+        "wrapX": {
+          "type": "boolean"
+        },
+        "minZoom": {
+          "type": "number"
+        },
+        "maxZoom": {
+          "type": "number"
+        },
+        "wrapadjacentdays": {
+          "type": "boolean"
+        },
+        "renderOrder": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "immutable": {
+              "type": "boolean"
+            }
+          }
+        },
+        "availability": {
+          "type": "object",
+          "properties": {
+            "rollingWindow": {},
+            "historicalRanges": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/dateRange"
+              }
+            }
+          }
+        },
+        "track": {
+          "description": "An orbit track layer's orbit direction",
+          "type": "string"
+        },
+        "associatedLayers": {
+          "description": "ID of an associated layers (e.g. a corresponding granule layer)",
+          "type": "array"
+        },
+        "layer": {
+          "type": "string"
+        },
+        "layers": {
+          "type": "array"
+        },
+        "layerName": {
+          "type": "string"
+        },
+        "disableSmartHandoff": {
+          "type": "boolean"
+        },
+        "disableCharting": {
+          "type": "boolean"
+        },
+        "temporal": {
+          "type": "string"
+        },
+        "dateRanges": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "dateInterval": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "allOf": [
+        {
+          "description": "Prevents this one-off 'layer' prop from being allowed on other layers",
+          "if": {
+            "properties": {
+              "id": {
+                "not": {
+                  "const": "World_Database_on_Protected_Areas"
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "layer": {
+                "not": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        {
+          "description": "WMS layers require format property",
+          "if": {
+            "properties": {
+              "type": {
+                "const": "wms"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "required": [
+              "format"
+            ]
+          }
+        }
+      ]
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "composite:wmts",
+        "granule",
+        "indexedVector",
+        "titiler",
+        "vector",
+        "wms",
+        "wmts",
+        "xyz"
+      ]
+    },
+    "format": {
+      "type": "string",
+      "enum": [
+        "image/jpeg",
+        "image/jpgpng",
+        "image/png",
+        "application/x-protobuf"
+      ]
+    },
+    "dataAvailability": {
+      "type": "string",
+      "enum": [
+        "dd"
+      ]
+    },
+    "orbitDirection": {
+      "type": "string",
+      "enum": [
+        "ascending",
+        "descending"
+      ]
+    },
+    "date": {
+      "type": "string",
+      "pattern": "^(\\d{4})(-(\\d{2}))??(-(\\d{2}))??(T(\\d{2}):(\\d{2})(:(\\d{2}))??(\\.(\\d+))??(([\\+\\-]{1}\\d{2}:\\d{2})|Z)??)??$"
+    },
+    "dateRange": {
+      "type": "object",
+      "properties": {
+        "startDate": {
+          "$ref": "#/definitions/date"
+        },
+        "endDate": {
+          "$ref": "#/definitions/date"
+        },
+        "dateInterval": {
+          "description": "TODO should this be a number?",
+          "type": "string"
+        }
+      }
+    },
+    "vectorStyle": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id"
+      ]
+    },
+    "palette": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "recommended": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        },
+        "immutable": {
+          "type": "boolean"
+        }
+      }
+    },
+    "projections": {
+      "type": "object",
+      "properties": {
+        "geographic": {
+          "$ref": "#/definitions/projection"
+        },
+        "arctic": {
+          "$ref": "#/definitions/projection"
+        },
+        "antarctic": {
+          "$ref": "#/definitions/projection"
+        },
+        "webmerc": {
+          "$ref": "#/definitions/projection"
+        }
+      }
+    },
+    "projection": {
+      "type": "object",
+      "properties": {
+        "layer": {
+          "type": "string"
+        },
+        "subtitle": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "matrixSet": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": true,
+      "required": [
+        "source"
+      ]
+    }
+  }
+}

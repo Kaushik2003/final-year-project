@@ -1,0 +1,125 @@
+import { each as lodashEach } from 'lodash';
+import { serializeDate } from '../date/util';
+import { ENCODING_EXCEPTIONS } from './constants';
+// Facebook: https://developers.facebook.com/docs/sharing/reference/share-dialog#redirect
+export function facebookUrlParams(appId, href, redirectUri, display) {
+  return (
+    `${'https://www.facebook.com/dialog/share?' +
+    'app_id='}${
+      encodeURIComponent(appId)
+    }&href=${
+      encodeURIComponent(href)
+    }&redirect_uri=${
+      encodeURIComponent(redirectUri)
+    }&display=${
+      encodeURIComponent(display)}`
+  );
+}
+
+// Twitter: https://dev.twitter.com/web/tweet-button/parameters#web-intent-example
+export function twitterUrlParams(url, text) {
+  return (
+    `${'https://twitter.com/intent/tweet?' +
+    'url='}${
+      encodeURIComponent(url)
+    }&text=${
+      encodeURIComponent(text)}`
+  );
+}
+
+// Reddit: https://www.reddit.com/r/nasa/submit?url=[URL]&title=[TITLE]
+export function redditUrlParams(url, title) {
+  return (
+    `${'https://www.reddit.com/r/nasa/submit?' +
+    'url='}${
+      encodeURIComponent(url)
+    }&title=${
+      encodeURIComponent(title)}`
+  );
+}
+
+// Email: mailto:?subject=[SUBJECT]&body=[BODY]
+export function emailUrlParams(subject, body) {
+  return (
+    `${'mailto:?' +
+    'subject='}${
+      encodeURIComponent(subject)
+    }&body=${
+      encodeURIComponent(body)}`
+  );
+}
+
+export function encode(value) {
+  let encoded = encodeURIComponent(value);
+  lodashEach(ENCODING_EXCEPTIONS, (exception) => {
+    encoded = encoded.replace(exception.match, exception.replace);
+  });
+  return encoded;
+}
+
+export function getPermalink(queryString, selectedDate, isEmbed) {
+  const url = window.location.href;
+  const prefix = url.split('?')[0];
+
+  // if no time query string parameter, add to permalink
+  const isTimeInQueryString = queryString.includes('t=');
+  let timeParam = '';
+  if (!isTimeInQueryString) {
+    const serialized = serializeDate(selectedDate);
+    const encoded = encode(serialized);
+    timeParam = `t=${encoded}`;
+  }
+
+  // add to permalink based on existing querystring
+  let permalink = prefix;
+  if (!queryString) {
+    permalink += `?${timeParam}`;
+  } else if (!isTimeInQueryString) {
+    permalink += `${queryString}&${timeParam}`;
+  } else {
+    permalink = url;
+  }
+
+  if (isEmbed) {
+    permalink += '&em=true';
+  } else if (permalink.includes('em=')) {
+    permalink = permalink.replace('em=true', 'em=false');
+  }
+
+  // Remove 'kiosk=true'
+  if (permalink.includes('kiosk=true')) {
+    if (permalink.includes('?kiosk=true&')) {
+      permalink = permalink.replace('?kiosk=true&', '?');
+    } else if (permalink.includes('&kiosk=true')) {
+      permalink = permalink.replace('&kiosk=true', '');
+    } else if (permalink.includes('?kiosk=true')) {
+      permalink = permalink.replace('?kiosk=true', '');
+    }
+  }
+
+  // Remove 'e2e=true'
+  if (permalink.includes('e2e=true')) {
+    if (permalink.includes('?e2e=true&')) {
+      permalink = permalink.replace('?e2e=true&', '?');
+    } else if (permalink.includes('&e2e=true')) {
+      permalink = permalink.replace('&e2e=true', '');
+    } else if (permalink.includes('?e2e=true')) {
+      permalink = permalink.replace('?e2e=true', '');
+    }
+  }
+
+  // Check for 'eic=' and remove it along with the next two characters
+  const eicPattern = /eic=../g;
+  permalink = permalink.replace(eicPattern, '');
+
+  // Handle cases where removing `eic=..` might leave behind '&'
+  if (permalink.endsWith('&')) {
+    permalink = permalink.slice(0, -1);
+  } else if (permalink.includes('&&')) {
+    permalink = permalink.replace('&&', '&');
+  }
+
+  return permalink;
+}
+
+export function wrapWithIframe(value) { return `<iframe src="${value}" role="application" sandbox="allow-modals allow-scripts allow-same-origin allow-forms allow-popups" width="100%" height="100%" allow="fullscreen; autoplay;" loading="lazy"></iframe>`; }

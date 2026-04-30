@@ -1,0 +1,41 @@
+/build
+/web/build
+/web/brand
+/web/config
+/web/stories
+/dist
+/node_modules
+/web/ext/node_modules/*
+/tasks/link-check/results
+python
+.python/
+.node-virtualenv/
+.ropeproject/
+*.pyc
+.project
+.settings
+.pydevproject
+.DS_Store
+bitly.json
+*~
+*.swp
+options
+\#*
+.vagrant
+*.log
+# Playwright stuff
+e2e/reports
+e2e/screens
+playwright-report/
+playwright/.cache/
+*.jar
+# Config
+/config/*
+!/config/default
+config/default/release/gc
+config/default/release/layer-metadata
+# Jest
+/coverage
+/tasks/temp
+/test-results/
+

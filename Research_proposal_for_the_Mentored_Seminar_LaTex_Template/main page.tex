@@ -1,0 +1,280 @@
+\documentclass[listof=totoc,a4paper,12pt,oneside,chapterprefix=true,sfdefaults=false]{scrbook}
+
+% Template Designed by Dr. Alamgir Sardar (Assistant Professor), Department of Computer Science & Engineering, Sister Nivedita University, New Town, Kolkata, India. For any discrepancy email: alamgir.s@snuniv.ac.in
+
+%======================Header Footer================================
+
+% Load fancyhdr for custom headers/footers
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+
+% Clear default header and footer
+\fancyhf{}
+
+% ---------- HEADER ----------
+% Display current chapter name in uppercase (like \headmark)
+\fancyhead[RO,LE]{\nouppercase{\leftmark}}
+\renewcommand{\headrulewidth}{0.4pt} % line under header
+
+% ---------- FOOTER ----------
+% Left (even pages): page number then a vertical rule then “Page”
+\fancyfoot[LE]{\thepage\ \rule[-0.5ex]{1pt}{1.5ex}\ Page}
+
+% Right (odd pages): “Page” then rule then page number
+\fancyfoot[RO]{Page\ \rule[-0.5ex]{1pt}{1.5ex}\ \thepage}
+
+% Center footer on all pages
+\fancyfoot[L]{\textbf{\small Sister Nivedita University, WB}}
+
+% ---------- PAGE STYLE ADJUSTMENTS ----------
+% Make chapter-opening pages empty (no header/footer)
+\fancypagestyle{plain}{
+  \fancyhf{}
+  \renewcommand{\headrulewidth}{0pt}
+  \renewcommand{\footrulewidth}{0pt}
+}
+
+%==============================Header Footer=====================
+
+\usepackage[margin=1in,head=27.2pt]{geometry}
+% margin=1in → sets all four margins (left, right, top, bottom) to 1 inch.
+% head=27.2pt → reserves 27.2 points of vertical space for the header. This adjusts how much space is allocated above the text block for running headers.
+
+\usepackage[T1]{fontenc} % Controls font encoding (how characters are represented internally for typesetting)
+% T1 is a European 8-bit encoding that supports accented characters (like é, ü, ñ).
+% It also improves hyphenation for words with accented characters (compared to the default OT1 encoding).
+
+% =============Text Formatting & Styles==========================
+\usepackage[normalem]{ulem}    % underline, strikeout, emphasis (normalem avoids overriding \emph)
+\usepackage{ragged2e}          % better text justification (e.g., \justifying)
+\usepackage{textcomp}          % additional text symbols (e.g., °, €, etc.)
+\usepackage{gensymb}           % generic symbols (e.g., degree, ohm)
+\usepackage{csquotes}          % context-sensitive quotation marks
+\usepackage{setspace}          % line spacing (single, 1.5, double)
+\usepackage{lineno}            % line numbering
+\usepackage{datetime}          % date and time formatting
+\usepackage[none]{hyphenat}    % Disable hyphenation
+% \usepackage{ulem}              % Underlining, strike-through, etc.
+\usepackage{enumerate}         % Customizable enumerate environment
+\usepackage{enumitem}          % Advanced control over lists (spacing, labels)
+\usepackage{mfirstuc}          % Capitalize words / first letters
+
+
+% ===================Mathematics Packages=================
+\usepackage{amsmath}           % advanced math environments
+\usepackage{amssymb}           % extra mathematical symbols
+\usepackage{amsfonts}          % additional math fonts
+\usepackage{mathrsfs}          % script fonts for math
+\usepackage{mathtools}         % enhancements to amsmath
+\usepackage[thinc]{esdiff}     % easy derivative notation
+\usepackage{siunitx}           % consistent SI units and numbers
+\usepackage{relsize}           %required for \mathlarger
+
+
+% ==========Tables & Tabular Environments==============
+\usepackage{tabularx}          % Tables with adjustable-width columns
+\usepackage{longtable}         % multipage tables
+\usepackage{multirow}          % multi-row cells in tables
+\usepackage{multicol}          % multi-column formatting
+\usepackage{mdwtab}            % IEEE-style tables
+\usepackage{array}             % advanced array/tabular features
+\usepackage{tabularray}        % Modern table package (like array + tabularx)
+\UseTblrLibrary{booktabs}      % High-quality table rules for tabularray
+\usepackage{booktabs}          % Professional-quality table rules
+\usepackage{makecell}          % Line breaks & formatting inside table cells
+% \usepackage{ragged2e}          % Better text justification in tables
+
+
+% ===================Figures, Graphics & Diagrams=======================
+
+\usepackage{graphicx}          % include graphics/images
+\graphicspath{{./images/}}     % set path for images
+% \usepackage[center]{caption}   % better caption formatting
+\usepackage[justification=justified]{caption}   % better caption formatting
+% \usepackage[justification=justified,singlelinecheck=false]{caption}
+\usepackage{bicaption}         % Bilingual captions for figures/tables
+\usepackage{subcaption}        % sub-figures/sub-tables with captions
+% \usepackage{subfigure}         % Sub-figures (older, now replaced by subcaption)
+\usepackage{float}             % improved float control (H option)
+\usepackage[inline]{asymptote} % vector graphics (Asymptote language)
+\usepackage{tikz}              % drawing diagrams
+\usetikzlibrary{arrows,automata} % arrows, automata states
+\usetikzlibrary{calc}          % coordinate calculations in TikZ
+\usepackage{overpic}           % Place LaTeX content over pictures
+\usepackage{epsfig,color}      % EPS figures and colors
+\usepackage[figuresright]{rotating} % Rotate figures/tables
+%\usepackage{psfig,epsfig}     % Obsolete graphics packages
+
+% ==================BIBLIOGRAPHY / REFERENCES=====================
+% \usepackage{natbib}     % For advanced citation styles (author–year, numeric, etc.)
+
+
+% ==================DOCUMENT SPACING=============================
+
+% \linespread{2}          % Double line spacing (useful for drafts/theses)
+
+% =================Document Structure & Utilities=============================
+
+\usepackage{pdfpages}          % include external PDF pages
+% \usepackage{hyperref}          % hyperlinks and clickable references
+\usepackage{hyperref,url}      % Hyperlinks for references, URLs, DOIs
+\usepackage[section]{placeins} % prevents floats from crossing sections
+\usepackage{eqparbox}          % equal-width boxes for text/math alignment
+\usepackage[misc]{ifsym}       % additional symbols (envelopes, etc.)
+\usepackage{mathptmx}          % Times Roman font for text + math
+
+
+% ==================NOTES / ANNOTATIONS====================================
+\usepackage{todonotes}      % Add TODO notes in margin / inline, for \cdots
+
+% ==================GLOSSARY===============================================
+\usepackage[nonumberlist,nogroupskip,xindy]{glossaries} % Glossary & acronyms
+
+% ==================FOOTNOTES==============================================
+\usepackage[bottom]{footmisc}  % Force footnotes to appear at bottom of page
+
+% =================UTILITIES===============================================
+\usepackage{etoolbox}          % Programming tools for LaTeX macros
+
+
+% ==================ALGORITHMS==============================================
+% \usepackage[linesnumbered,lined,commentsnumbered]{algorithm2e} 
+% Pseudocode with numbered lines, comments, and formatting
+
+
+\usepackage{algorithm,algpseudocode}
+\usepackage{textgreek} % Allows Greek letters inside normal text without switching to math mode ($...$).
+
+\renewcommand{\algorithmicrequire}{\textbf{Input: }}
+\renewcommand{\algorithmicensure}{\textbf{Output: }}
+
+\usepackage{tikz}  % For drawing
+\usetikzlibrary{positioning}
+
+% Following part to show colon after Algorithm #
+\usepackage{caption}
+\captionsetup[algorithm]{labelsep=colon}
+
+%==========================================================================
+
+\renewcommand{\labelitemi}{\tiny$ \color{black}\blacksquare$}  % blacksquare shaped itemized
+
+
+\usepackage[backend=biber,style=numeric, sorting=none]{biblatex}
+\addbibresource{references.bib}
+
+\hyphenpenalty=1000000
+\sloppy
+
+
+
+% \renewcommand{\theadfont}{\normalsize}
+\renewcommand\theadfont{\bfseries}  % For Bold Table head in center allignment write \thead{column name}
+\renewcommand\theadgape{}
+\newcolumntype{L}{>{\RaggedRight}X}
+\newcolumntype{P}[1]{>{\RaggedRight\hspace{0pt}}p{#1}}
+
+\newenvironment{calligraphic}{\usefont{T1}{pzc}{m}{it}}{}
+\newenvironment{conditions}
+  {\par\vspace{\abovedisplayskip}\noindent\begin{tabular}{>{$}l<{$} @{${}={}$} l}}
+  {\end{tabular}\par\vspace{\belowdisplayskip}}
+% Example
+
+
+\hypersetup{
+  colorlinks   = true, %Colours links instead of ugly boxes
+  urlcolor     = blue, %Colour for external hyperlinks
+  linkcolor    = blue, %Colour of internal links
+  citecolor   = red %Colour of citations
+}
+
+
+% Define a new font command
+\newcommand{\setchapterfont}{\fontsize{12}{14}\selectfont\fontfamily{ptm}\selectfont}
+% Patch the \mainmatter command to change font settings
+\preto{\mainmatter}{\setchapterfont}
+\newcommand{\acfull}[1]{\acl{#1} (\acs{#1})}
+
+% handy shortcut macro:for table in introduction
+\newcommand\mytab[1]{%
+   \begin{tabular}[t]{@{}l@{}} #1 \end{tabular}}
+
+
+% ----------------------Paragraph Spacing-----------------------------
+
+\setlength{\parskip}{6pt}   % space BETWEEN paragraphs
+\setlength{\parindent}{0pt} % optional: remove paragraph indentation
+\usepackage{parskip}
+
+
+% ----------------------Remove space before chapter heading--------------
+
+\makeatletter
+\renewcommand{\@makechapterhead}[1]{%
+    \vspace*{-20pt}% reduce space before chapter title
+    {\parindent \z@ 
+     \normalfont
+     \huge\bfseries
+     \ifnum \c@chapter > 0
+       \chaptername\ \thechapter % prints "Chapter 1"
+       \par\nobreak
+       \vskip 10pt
+     \fi
+     #1\par}%
+    \vspace{20pt}%
+}
+\makeatother
+% ---------------------------------------------------------------------
+
+
+
+   
+\begin{document}
+\include{bibtext/class file}
+
+\frontmatter
+
+
+
+
+\begin{titlepage}
+\include{bibtext/title_page}
+\end{titlepage}
+
+\setcounter{page}{1}
+
+
+
+\tableofcontents
+\listoftables
+\listoffigures
+
+
+\justifying
+\onehalfspacing
+% \include{bibtext/Acknowledgement}
+\include{bibtext/Abstract}
+
+\setlength{\parskip}{6pt}   % space between paragraphs
+
+\mainmatter
+
+\include{chapter1-introduction}
+
+\include{chapter2-problem statement}
+
+\include{chapter3-significance}
+
+\include{chapter4-literature-review}
+
+\include{chapter5-Research Gap Identification}
+
+\include{chapter6-Objectives}
+
+\include{chapter7-workplan}
+
+\backmatter
+
+% \bibliographystyle{IEEEtran}
+\printbibliography
+\end{document} 

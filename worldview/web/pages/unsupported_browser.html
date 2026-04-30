@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+<head>
+  <title>@OFFICIAL_NAME@</title>
+  <style>
+    body {
+      background-color: #000;
+      font-family: sans-serif;
+    }
+
+    #unsupported {
+      position: fixed;
+      width: 500px;
+      height: 300px;
+      left: 50%;
+      top: 50%;
+      margin-left: -250px;
+      margin-top: -150px;
+      padding: 20px;
+      background-color: #f3f3f3;
+    }
+
+    h4 {
+      text-align: center;
+    }
+
+  </style>
+
+  <script>
+    window.onload = function() {
+      var link = document.getElementById("continue");
+      if ( location.search.length == 0 ) {
+        link.href = "../index.html?unsupported"
+      } else {
+        link.href = "../index.html" + location.search + "&unsupported";
+      }
+    };
+  </script>
+</head>
+<body>
+  <img src="../brand/images/wv-logo.png">
+  <div id="unsupported">
+    <h4>Your browser is not supported.</h4>
+    <p>
+    Worldview uses modern web technologies that require supported browsers.
+    For the best experience, please try using the latest
+    version of Google Chrome, Mozilla Firefox, Apple Safari, or a mobile device.
+    Thanks for your patience.
+    </p>
+    <p>
+    -The Worldview development team
+    </p>
+    <br/>
+  </div>
+</body>

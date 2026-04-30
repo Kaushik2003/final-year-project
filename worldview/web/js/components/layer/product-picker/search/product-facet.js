@@ -1,0 +1,92 @@
+import { useState } from 'react';
+import PropTypes from 'prop-types';
+import { Facet } from '@elastic/react-search-ui';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Tooltip } from 'reactstrap';
+
+function ProductFacet(props) {
+  const [tooltipVisible, toggleTooltip] = useState(false);
+
+  const {
+    config,
+    data,
+    collapsed,
+    toggleCollapse,
+  } = props;
+
+  const {
+    field,
+    booleanOptionLabel,
+    label,
+    filterType,
+    tooltip,
+    show,
+    view,
+  } = config;
+
+  const renderHeaderIcons = () => (
+    <>
+      <Tooltip
+        id="center-align-tooltip"
+        className="facet-tooltip-content"
+        isOpen={tooltipVisible}
+        target={`${field}-tooltip-target`}
+        placement="right"
+        toggle={() => toggleTooltip(!tooltipVisible)}
+        delay={{ show: 0, hide: 300 }}
+      >
+        <div dangerouslySetInnerHTML={{ __html: tooltip }} />
+      </Tooltip>
+      <FontAwesomeIcon
+        id={`${field}-tooltip-target`}
+        className="facet-tooltip"
+        icon="info-circle"
+        widthAuto
+      />
+      <FontAwesomeIcon
+        className={`facet-collapse-toggle ${!data.length && 'hidden'}`}
+        icon={!collapsed ? 'caret-down' : 'caret-left'}
+        onClick={() => toggleCollapse(field)}
+        widthAuto
+      />
+    </>
+  );
+
+  const noResults = !data.length;
+
+  return collapsed || noResults
+    ? (
+      <div id={`${field}-facet`} className="facet-wrapper">
+        {renderHeaderIcons()}
+        <fieldset className="sui-facet">
+          <legend className="sui-facet__title">{label}</legend>
+        </fieldset>
+        {noResults && !collapsed && (
+          <div className="no-matches">No matches.</div>
+        )}
+      </div>
+    )
+    : (
+      <div id={`${field}-facet`} className="facet-wrapper">
+        {renderHeaderIcons()}
+        {!collapsed && (
+          <Facet
+            field={field}
+            label={booleanOptionLabel || label}
+            filterType={filterType}
+            show={show}
+            view={view}
+          />
+        )}
+      </div>
+    );
+}
+
+ProductFacet.propTypes = {
+  config: PropTypes.oneOfType([PropTypes.object, PropTypes.oneOf(['null'])]),
+  collapsed: PropTypes.bool,
+  data: PropTypes.oneOfType([PropTypes.array, PropTypes.oneOf(['null'])]),
+  toggleCollapse: PropTypes.func,
+};
+
+export default ProductFacet;

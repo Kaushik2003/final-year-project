@@ -1,0 +1,68 @@
+@use "variables";
+
+@media only screen and (max-width: variables.$mobile-max-width) {
+  div.olControlScaleLineCustom {
+    bottom: 10px;
+  }
+
+  .olControlScaleLineCustomBottom {
+    display: none;
+  }
+
+  div.olControlMousePosition {
+    display: none;
+  }
+
+  div.olControlMousePosition,
+  div.olControlScaleLineCustom {
+    display: none !important;
+  }
+
+  /* EMBED MODE */
+  #wv-content:not(.embed-mode) {
+    #selectorboxcontent {
+      max-height: 97%;
+    }
+
+    img.sidebar-panel-item-img {
+      display: block;
+      height: 1.6em;
+      width: auto;
+    }
+
+    #products-holder li.third {
+      display: none;
+    }
+
+    #wv-toolbar li {
+      display: block;
+      float: left;
+      margin: 1px;
+    }
+
+    #selected-category .ui-tabs-panel {
+      clear: both;
+      margin-left: 0;
+      border-top: 2px solid #d54e21;
+      padding: 10px 0 0;
+    }
+
+    #selected-category .ui-tabs .ui-tabs-nav {
+      margin-bottom: 15px;
+    }
+
+    #categories-nav label {
+      font-size: 1em;
+      position: relative;
+      padding-top: 1px;
+    }
+
+    .button-label-scientific {
+      top: -2px;
+    }
+
+    #selected-category .ui-tabs-panel li.measurement-settings-item {
+      margin-left: 0;
+    }
+  }
+}

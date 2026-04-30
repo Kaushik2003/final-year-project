@@ -1,0 +1,165 @@
+@use "variables";
+
+.form-range {
+    &::-moz-range-track {
+      height: 6px;
+      background-color: #ccc;
+    }
+
+    &::-ms-track {
+      height: 6px;
+      background-color: #ccc;
+    }
+
+    // Customize the handle
+    &::-webkit-slider-thumb {
+      margin-top: -8px;
+      width: 22px;
+      height: 22px;
+      background-color: white;
+      border: 2px solid #ABE2FB;
+      border-radius: 50%;
+      cursor: grab;
+    }
+
+    &::-moz-range-thumb {
+      width: 22px;
+      height: 22px;
+      background-color: white;
+      border: 2px solid #ABE2FB;
+      border-radius: 50%;
+      cursor: grab;
+    }
+
+    &::-ms-thumb {
+      width: 22px;
+      height: 22px;
+      background-color: white;
+      border: 2px solid #ABE2FB;
+      border-radius: 50%;
+      cursor: grab;
+    }
+
+    // Change the color of the selected portion
+    &::-webkit-slider-runnable-track {
+      height: 4px;
+      background: linear-gradient(
+        to right,
+        #ABE2FB 0%,
+        #ABE2FB var(--value-percent, 0%),
+        #ccc var(--value-percent, 0%),
+        #ccc 100%
+      );
+    }
+
+    &:not(.double-range)::-moz-range-progress {
+      height: 4px;
+      background-color: variables.$wv-dark-blue;
+    }
+  }
+
+  .form-range.range-mobile {
+    &::-webkit-slider-runnable-track {
+      height: 10px;
+      width: 300px;
+    }
+
+    &::-moz-range-track {
+      height: 10px;
+      width: 300px;
+    }
+
+    &::-ms-track {
+      height: 10px;
+      width: 300px;
+    }
+
+    &::-webkit-slider-thumb {
+      width: 30px;
+      height: 30px;
+    }
+
+    &::-moz-range-thumb {
+      width: 30px;
+      height: 30px;
+    }
+
+    &::-ms-thumb {
+      width: 30px;
+      height: 30px;
+    }
+  }
+
+  // used in compare mode opacity slider
+  .range-tooltip {
+    position: absolute;
+    left: 50%;
+    top: -20%;
+    background-color: #666;
+    padding: 5px;
+    border-radius: 4px;
+    transform: translate(-50%, -100%);
+  }
+
+  .palette-threshold-range {
+    width: 85% ;
+    padding-top: 8px;
+  }
+
+.double-range {
+  &.start-range::-webkit-slider-runnable-track {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    background: linear-gradient(
+      to right,
+      #ccc 0%,
+      #ccc var(--min-range-percent),
+      #ABE2FB var(--min-range-percent),
+      #ABE2FB 100%
+    );
+  }
+
+  &.start-range::-moz-range-track {
+    height: 4px;
+    border: solid 1px #ccc;
+    border-left: none;
+    border-right: none;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    background: linear-gradient(
+      to right,
+      #ccc 0%,
+      #ccc var(--min-range-percent),
+      variables.$wv-dark-blue var(--min-range-percent),
+      variables.$wv-dark-blue 100%
+    );
+  }
+
+  &.end-range::-webkit-slider-runnable-track {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    background: linear-gradient(
+      to right,
+      #ABE2FB 0%,
+      #ABE2FB var(--max-range-percent),
+      #ccc var(--max-range-percent),
+      #ccc 100%
+    );
+  }
+
+  &.end-range::-moz-range-track {
+    height: 4px;
+    border: solid 1px #ccc;
+    border-left: none;
+    border-right: none;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    background: linear-gradient(
+      to right,
+      variables.$wv-dark-blue 0%,
+      variables.$wv-dark-blue var(--max-range-percent),
+      #ccc var(--max-range-percent),
+      #ccc 100%
+    );
+  }
+}

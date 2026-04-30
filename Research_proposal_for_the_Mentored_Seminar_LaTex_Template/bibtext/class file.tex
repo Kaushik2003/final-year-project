@@ -1,0 +1,107 @@
+%=========================CUSTOM COMMANDS==========================
+
+% \usepackage{mfirstuc} % for \capitalisewords and \makefirstuc
+
+\newcommand{\projectTitle}[1]{%
+    {\centering\Huge \bfseries {\capitalisewords{#1}\par}}
+    \vspace{2cm}
+}
+
+
+\newcommand{\projectSubmitted}[1]{%
+    {\centering \Large {Project Submitted By}\par}
+    \vspace{0.3in}
+}
+
+\newcommand{\studentName}[1]{%
+    {\centering \Large {\capitalisewords{#1}\par}}
+    % \vspace{0.1in}
+}
+
+
+\newcommand{\programName}[1]{%
+    \vspace{0.5cm}
+    {\centering\Large{#1}\par}
+    \vspace{0.5cm}
+}
+
+\newcommand{\universityDetailsCoverPage}{%
+  % \vfill
+    \vspace{2cm}
+  \begin{center}
+    \includegraphics[width=0.6\textwidth]{bibtext/snu_logo.jpg}\\[2ex]
+    {\Large {Department of Computer Science}\\}
+    {\Large \capitalisewords{Sister Nivedita University, Newtown}\\}
+    {\Large \capitalisewords{Kolkata, West Bengal}\par}
+  \end{center}
+  \vspace{1cm}
+}
+
+
+\newcommand{\projectFulfillment}[1]{%
+    \vspace{-1cm}
+    {\centering \Large Project Submitted in Partial Fulfilment of the Requirements for Award of the Degree of \par
+    % \vspace{0.2cm}
+    }
+} 
+
+
+\newcommand{\studentNames}[1]{%
+    % \vspace{-1cm}
+    {\centering \Large \bfseries by \par}
+    \vspace{0.1in}
+    {\centering \Large \bfseries \capitalisewords{#1}\par}
+    \vspace{0.2in}
+}
+
+\newcommand{\registrationNumbers}[1]{%
+    {\centering \large \bfseries Registration Number: {#1}\par}
+    \vspace{0.2in}  
+}
+
+
+\newcommand{\submissionDate}[1]{%
+    {\centering \normalfont {\bfseries Submission Date:} {#1}\par}
+    \vspace{0.2in}  
+}
+
+
+\newcommand{\emailIDs}[1]{%
+    {\centering \normalfont \bfseries Email: {#1}\par}
+    \vspace{0.2in}  
+}
+
+\newcommand{\supervisorName}[1]{%
+    \onehalfspacing
+    {\centering {\bfseries \textit{Under the supervision of}} \par \normalfont {#1}}
+}
+
+\newcommand{\supervisorDesignation}[1]{%
+    \onehalfspacing
+    {\centering \bfseries \normalfont {#1} \\}
+    {\normalfont Department of Computer Science \\}
+    {\normalfont \capitalisewords{Sister Nivedita University, Newtown}\\}
+    {\normalfont \capitalisewords{Kolkata, West Bengal}\par}
+}
+
+
+\newcommand{\universityDetailsTitlePage}{%
+  % \vfill
+   \vspace{0.2in}
+  \begin{center}
+    \includegraphics[width=0.6\textwidth]{bibtext/snu_logo.jpg}\\[1ex]
+    % {\Large\MakeUppercase{Department of Computer Science Engineering}\par}
+    {\Large {Department of Computer Science}\par}
+    {\Large \capitalisewords{Sister Nivedita University, Newtown}\par}
+    {\Large \capitalisewords{Kolkata, West Bengal}}
+    % {\Large August, 2025\par}
+  \end{center}
+}
+
+
+\newcommand{\initcap}[1]{%
+  \renewcommand*{\do}[1]{\uppercase{\StrLeft{##1}{1}}\StrMid{##1}{2}{9999}\ }%
+  \docsvlist{#1}%
+}
+
+

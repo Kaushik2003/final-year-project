@@ -1,0 +1,62 @@
+{
+    "measurements": {
+        "Nitrogen Dioxide": {
+            "id": "nitrogen-dioxide",
+            "title":    "Nitrogen Dioxide",
+            "subtitle": "Aura/OMI, TEMPO, TROPOMI, ASIA-AQ, SEDAC",
+            "sources": {
+                "Aura/MLS": {
+                    "id": "aura-omi",
+                    "title": "Aura/OMI",
+                    "description": "omi/NitrogenDioxide",
+                    "image": "",
+                    "settings": [
+                        "OMI_Nitrogen_Dioxide_Tropo_Column",
+                        "OrbitTracks_Aura_Ascending"
+                    ]
+                },
+                "TEMPO": {
+                    "id": "tempo",
+                    "title": "TEMPO",
+                    "description": "",
+                    "image": "",
+                    "settings": [
+                        "TEMPO_L2_NO2_Vertical_Column_Stratosphere_Granule",
+                        "TEMPO_L2_NO2_Vertical_Column_Troposphere_Granule",
+                        "TEMPO_L3_NO2_Vertical_Column_Stratosphere",
+                        "TEMPO_L3_NO2_Vertical_Column_Troposphere"
+                    ]
+                },
+               "Sentinel-5P/TROPOMI": {
+                    "id": "sentinel-5p-tropomi",
+                    "title": "Sentinel-5P/TROPOMI",
+                    "description": "tropomi/NitrogenDioxide",
+                    "image": "",
+                    "settings": [
+                        "TROPOMI_L2_Nitrogen_Dioxide_Tropospheric_Column",
+                        "OrbitTracks_Sentinel-5P_Ascending"
+                    ]
+                },
+              "ASIA-AQ": {
+                  "id": "asia-aq",
+                  "title": "ASIA-AQ",
+                  "description": "",
+                  "image": "",
+                  "settings": [
+		         "ASIA-AQ_DC-8_NO2"
+                  ]
+              },
+                "SEDAC": {
+                    "id": "sedac",
+                    "title": "SEDAC",
+                    "description": "sedac/NitrogenDioxide",
+                    "image": "",
+                    "settings": [
+                        "Ground_Level_Nitrogen_Dioxide_3_Year_Running_Mean_1996-1998",
+                        "Ground_Level_Nitrogen_Dioxide_3_Year_Running_Mean_2010-2012"
+                    ]
+                }
+            }
+        }
+    }
+}

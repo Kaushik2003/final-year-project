@@ -1,0 +1,45 @@
+import {
+  assign as lodashAssign,
+  cloneDeep as lodashCloneDeep,
+} from 'lodash';
+import { getOverlayGroups } from '../layers/util';
+
+/**
+ * Update embed state when location-pop action occurs
+ *
+ * @param {Object} parameters | parameters parsed from permalink
+ * @param {Object} stateFromLocation | State derived from permalink parsers
+ */
+
+export function mapLocationToEmbedState(
+  parameters,
+  stateFromLocationObj,
+) {
+  let stateFromLocation = stateFromLocationObj;
+  if (parameters.em === 'true') {
+    const { layers } = stateFromLocation;
+    const layersClone = lodashCloneDeep(layers);
+    const { active, activeB } = layersClone;
+
+    const activeFiltered = active.layers.filter((layer) => layer.visible);
+    // remove reference layers overlay group
+    const activeOverlayGroups = getOverlayGroups(activeFiltered).filter((group) => group.groupName !== 'Reference');
+    layersClone.active.layers = activeFiltered;
+    layersClone.active.overlayGroups = activeOverlayGroups;
+
+    const activeBFiltered = activeB.layers.filter((layer) => layer.visible);
+    // remove reference layers overlay group
+    const activeBOverlayGroups = getOverlayGroups(activeBFiltered).filter((group) => group.groupName !== 'Reference');
+    layersClone.activeB.layers = activeBFiltered;
+    layersClone.activeB.overlayGroups = activeBOverlayGroups;
+
+    const updatedState = {
+      embed: { isEmbedModeActive: true },
+      layers: layersClone,
+    };
+
+    stateFromLocation = lodashAssign({}, stateFromLocation, updatedState);
+  }
+
+  return stateFromLocation;
+}

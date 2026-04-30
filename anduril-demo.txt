@@ -1,0 +1,7 @@
+The fourth pillar of the EagleEye architecture, Hardware Synergy (2:10 - 3:06), is designed to provide a cohesive, low-latency, and durable system for the modern warfighter. This approach integrates modular technologies to ensure that an operator has reliable, high-performance tools in the most demanding combat environments.
+
+Key components of this hardware strategy include:
+
+    Ruggedized Display (AR): Leveraging partnerships with experts like Oakley Standard Issue, Meta, and Gentex_Corp, the system incorporates advanced AR display technology housed within ballistic-rated eyewear. This ensures the gear remains functional under extreme field conditions while delivering clear, data-rich visuals.
+    High-Performance Edge Compute: To minimize reliance on cloud-based processing—which is often unavailable or too slow in contested zones—the system utilizes advanced onboard compute power from Qualcomm. This allows for real-time AI processing, complex tactical mapping, and sensor data analysis directly at the 'edge.'
+    Sensor Fusion: The hardware stack is engineered to ingest and synthesize streams from multiple environmental sensors. By combining this data into a unified, low-latency interface, the system offloads cognitive burden from the soldier, enabling faster situational a

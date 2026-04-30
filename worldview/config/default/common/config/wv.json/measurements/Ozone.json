@@ -1,0 +1,105 @@
+{
+    "measurements": {
+        "Ozone": {
+            "id": "ozone",
+            "title":    "Ozone",
+            "subtitle": "ACTIVATE/NASA HU-25 Falcon, AJAX/Alpha Jet, Aura/MLS, Aura/OMI, DCOTSS/NASA ER-2 UCATS and ROZE, Suomi NPP/OMPS, TEMPO, MERRA-2",
+            "sources": {
+                "ACTIVATE/NASA HU-25 Falcon": {
+                  "id": "activate-nasa-hu25-falcon",
+                  "title": "ACTIVATE/NASA HU-25 Falcon",
+                  "description": "",
+                  "image": "",
+                  "settings": [
+                  "ACTIVATE_HU-25_Falcon_Ozone"
+                  ]
+              },
+                "AJAX/Alpha Jet": {
+                    "id": "ajax-alpha-jet",
+                    "title": "AJAX/Alpha Jet",
+                    "description": "",
+                    "image": "",
+                    "settings": [
+                        "AJAX_Alpha_Jet_Ozone"
+                    ]
+                },
+                "Aura/MLS": {
+                    "id": "aura-mls",
+                    "title": "Aura/MLS",
+                    "description": "mls/O3",
+                    "image": "",
+                    "settings": [
+                        "MLS_O3_46hPa_Day",
+                        "MLS_O3_46hPa_Night",
+                        "OrbitTracks_Aura_Ascending",
+                        "OrbitTracks_Aura_Descending"
+                    ]
+                },
+                "Aura/OMI": {
+                    "id": "aura-omi",
+                    "title": "Aura/OMI",
+                    "description": "",
+                    "image": "",
+                    "settings": [
+                        "OMI_Ozone_DOAS_Total_Column",
+                        "OMI_Ozone_TOMS_Total_Column",
+                        "OrbitTracks_Aura_Ascending"
+                    ]
+                },
+                "DCOTSS/NASA ER-2 UCATS": {
+                  "id": "DCOTSS_ER-2_UCATS_Ozone",
+                  "title": "DCOTSS//NASA ER-2 UCATS",
+                  "description": "",
+                  "image": "",
+                  "settings": [
+                  "DCOTSS_ER-2_UCATS_Ozone"
+                  ]
+              },
+                "DCOTSS/NASA ER-2 ROZE": {
+                  "id": "DCOTSS_ER-2_ROZE_Ozone",
+                  "title": "DCOTSS//NASA ER-2 ROZE",
+                  "description": "",
+                  "image": "",
+                  "settings": [
+                  "DCOTSS_ER-2_ROZE_Ozone"
+                  ]
+              },
+                "Suomi NPP/OMPS": {
+                    "id": "suomi-npp-omps",
+                    "title": "Suomi NPP/OMPS",
+                    "description": "omps/Ozone",
+                    "image": "",
+                    "settings": [
+                        "OMPS_Ozone_Total_Column",
+                        "OrbitTracks_Suomi_NPP_Ascending"
+                    ]
+                },
+                "TEMPO": {
+                    "id": "tempo",
+                    "title": "TEMPO",
+                    "description": "",
+                    "image": "",
+                    "settings": [
+                        "TEMPO_L2_Ozone_Column_Amount_Granule",
+                        "TEMPO_L2_Ozone_Cloud_Fraction_Granule",
+                        "TEMPO_L2_Ozone_Profile_Total_Column_Granule",
+                        "TEMPO_L2_Ozone_Profile_Troposphere_Column_Granule",
+                        "TEMPO_L3_Ozone_Column_Amount",
+                        "TEMPO_L3_Ozone_Cloud_Fraction",
+                        "TEMPO_L3_Ozone_Profile_Total_Column",
+                         "TEMPO_L3_Ozone_Profile_Troposphere_Column"
+                    ]
+                },
+                "MERRA-2": {
+                    "id": "merra2",
+                    "title": "MERRA-2",
+                    "description": "",
+                    "image": "",
+                    "settings": [
+                        "MERRA2_Ozone_Mixing_Ratio_50hPa_Monthly"
+                    ]
+                }
+            }
+        }
+    }
+}

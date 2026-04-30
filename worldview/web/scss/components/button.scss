@@ -1,0 +1,77 @@
+@use "variables";
+
+/*
+ * WV Button Widget
+ */
+
+.wv-button {
+  color: #eee;
+  font-weight: 700;
+  border: 1px solid;
+  border-color: #666;
+  font-size: 1em;
+  background-image: linear-gradient(#555, #666);
+  font-family: variables.$wv-bold-font;
+  padding: 0;
+}
+
+.wv-button span {
+  padding: 6px 13px 7px;
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+#compare-toggle-button.wv-button > span.button-text,
+#chart-toggle-button.wv-button > span.button-text{
+    display: block;
+    font-size: 13px;
+    padding: 3px 13px 4px;
+}
+
+#chart-toggle-button.disabled {
+  color: #fff;
+  pointer-events: auto;
+}
+
+.wv-button.red {
+  background: #f64137;
+  border-color: #f64137;
+}
+
+.wv-button.black {
+  background: #212121;
+}
+
+.wv-button:not(.disabled):hover,
+#compare-toggle-button:hover {
+  border-color: #eee;
+  background-color: #eee;
+  transition: background 0.4s ease, border-color 0.4s ease, color 0.4s ease;
+  background-image: none;
+  color: #404040;
+  cursor: pointer;
+}
+
+.wv-button.no-pointer-events {
+  pointer-events: none;
+}
+
+.wv-button:disabled {
+  opacity: 0.35;
+  background: #555;
+  background-image: none;
+  border: 1px solid #666;
+  border-radius: 0;
+  color: #eee;
+  cursor: not-allowed;
+}
+
+/*
+* Bootstrap/Reactstrap Button Overrides
+*/
+
+.btn.disabled,
+.btn:disabled {
+  cursor: not-allowed;
+}

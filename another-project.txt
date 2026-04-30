@@ -1,0 +1,134 @@
+---
+title: "I Built a Spy Satellite Simulator in a Browser. Here's What I Learned."
+source: "https://www.spatialintelligence.ai/p/i-built-a-spy-satellite-simulator"
+author:
+  - "[[Bilawal Sidhu]]"
+published: 2026-02-24
+created: 2026-04-30
+description: "How a weekend project got the attention of Palantir's co-founder."
+tags:
+  - "clippings"
+---
+I posted a demo video last week and went to sleep.
+
+By the time I woke up, the Palantir co-founder had replied to defend his company.
+
+That wasn’t what I was expecting. But it’s also exactly the kind of thing that happens when you accidentally poke a nerve — and it told me more about what I’d built than any of the positive replies did.
+
+Here’s what WorldView does: it lets you look at any place on Earth through the eyes of an intelligence analyst. Night vision. FLIR thermal. CRT scan lines. Live air traffic. Real satellite orbits. And — the part that really starts feeling surreal — actual CCTV camera feeds draped directly onto the 3D model of the city.
+
+All of it running in a browser. No classified clearances.
+
+Just open a tab
+
+![](https://substackcdn.com/image/fetch/$s_!kuXS!,w_1456,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F80471125-bc95-4451-9a4b-b6351dd2fd54_1300x1580.png)
+
+If you want to see WorldView in action, you can check out my full walkthrough on YouTube:
+
+![](https://www.youtube.com/watch?v=rXvU7bPJ8n4)
+
+### What’s actually happening under the hood
+
+The foundation is [Google’s Photorealistic 3D Tiles](https://developers.google.com/maps/documentation/tile) — the same technology that powers Google Earth’s volumetric city models. I spent six years at Google as the PM who helped build this. We were turning the physical world into a navigable 3D map at global scale. Millions of images. Petabytes of photogrammetry. Entire cities reconstructed from aerial photography.
+
+That technology is now publicly accessible via an API.
+
+On top of that, I layered real-time data feeds:
+
+- OpenSky Network — 7,000+ live aircraft positions, updated constantly
+- ADS-B Exchange — crowdsourced military flight tracking.
+- CelesTrak TLE data — 180+ satellites in actual orbital paths, tracked in real time. Click any one and follow its orbit.
+- OpenStreetMap — vehicle flow on city streets, rendered as a particle system
+- Public CCTV cameras — real traffic camera feeds from Austin, geographically located and projected onto the 3D model
+
+And then the shaders. CRT scan lines, night vision (NVG), FLIR thermal, anime cel-shading. Built from studying actual military display specifications — not for the aesthetics, but because those display systems were engineered to extract maximum information from sensor data. Turns out they also look absolutely wild layered over London.
+
+The anime mode is the one nobody expected. Same volumetric city model, same data feeds, same satellite tracking — but rendered with cel-shading that looks like a Studio Ghibli film. The contrast between military surveillance infrastructure and anime aesthetics is jarring in a way that makes you reconsider what “the aesthetic” actually communicates. Switch from anime to FLIR on the same view and the mood shifts from wonder to menace in a frame.
+
+You can stand over Austin at 3 AM in night vision mode and watch a plane descend into the airport. Switch to FLIR and look at Tower Bridge in London through the thermal spectrum, military targeting reticle and all. Pull back to globe view and click on any satellite to start tracking its orbital path in real time.  
+  
+At some point, it stops feeling like a demo.
+
+Man, it starts feeling magical.
+
+That’s what I said during the recording session. I meant it.
+
+![](https://substackcdn.com/image/fetch/$s_!AgUw!,w_1456,c_limit,f_webp,q_auto:good,fl_lossy/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F119e280c-1bfc-49c8-b2dc-da67f6b5e266_800x450.gif)
+
+### How I actually built this
+
+Between Gemini 3.1, Claude 4.6, and Codex 5.3 — it’s honestly wild what you can build right now.
+
+I didn’t write this code by hand. I described features in voice notes and screenshots, threw them at multiple AI agents running simultaneously, and steered the results. Running sometimes 8 agents at once, each working on a different subsystem. One’s building the satellite tracker, another’s wiring up the CCTV feeds, a third is implementing the shader pipeline.
+
+I don’t touch even Cursor anymore. I’m going straight into the terminal with each agent open in its own window.
+
+When I worked on Google Maps, it took developers months to get an understanding of how to use the geospatial APIs. This was a weekend. One person, a browser, and a few AI models doing the heavy lifting.
+
+![](https://substackcdn.com/image/fetch/$s_!qZcY!,w_1456,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fa5596c04-fa84-4035-8357-781bbe0e7fdc_3840x2160.jpeg)
+
+### Why I built this
+
+I’ve been saying “spatial intelligence” for a while now. In strategy docs, in tweets, in conversations about what I think matters next after language models. But it’s been mostly words.
+
+WorldView is the first attempt to make the thesis visible.
+
+The thesis: we’re building AI that understands the physical world the way it understands text. Not images — space. Not object recognition — spatial relationships, change over time, movement through a scene, the difference between “a car” and “that car, at that intersection, at that speed, at that hour.”
+
+That’s spatial intelligence. And it changes everything about security, logistics, city planning, disaster response, autonomous systems — basically anything that cares about the real world as it actually exists.
+
+WorldView doesn’t have the intelligence layer yet. But it has the view. It has the data fusion. It has the interface that makes you feel, viscerally, what becomes possible when the physical world becomes queryable and programmable.
+
+I spent six years helping build Google’s version of this infrastructure. I’ve been thinking about the next version for a long time.
+
+This is the prototype. The tip of the iceberg.
+
+![](https://substackcdn.com/image/fetch/$s_!ZeG_!,w_1456,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F9c85aefa-456e-48da-bc01-f0101d2fd972_1920x1080.jpeg)
+
+### Why the Palantir founder responded
+
+There’s a moment in the WorldView demo where I switch on what I was calling “God mode.”
+
+Detection overlays. Every vehicle on the street highlighted. Military flights circling overhead with callsigns and altitude data. Satellites in orbit. CCTV feeds projected onto buildings. Panoptic view — the term comes from Jeremy Bentham’s panopticon, the theoretical prison designed so the guard can always see every prisoner, and the prisoners know it, so they behave as if they’re always being watched.
+
+**”You can see everything.”**
+
+I said it with genuine wonder. Then I sat with it.
+
+Joe Lonsdale replied to the post with:
+
+![](https://substackcdn.com/image/fetch/$s_!pl5t!,w_1456,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fd5f3e350-e596-41e8-b61e-bb274d70c620_1300x744.png)
+
+I get it. From his vantage point, tools like Palantir exist because this capability has always been real — it just wasn’t accessible. The intelligence community has had something like WorldView for decades. The question Palantir answers is: how do you analyze it? How do you act on it? The data was never the moat.
+
+What’s new with WorldView isn’t the capability. It’s the accessibility.
+
+What I built is fundamentally a surveillance aesthetic built on top of public data. Military-grade shaders over open-source feeds. The visual language of classified intelligence systems running in a browser tab, available to anyone with internet access. And the CCTV integration — real camera footage draped onto real buildings, in real time — I actually built that.
+
+There’s a concept I keep coming back to that applies here: the two viellances. Surveillance (the state watching you) versus sousveillance (you watching back). We’ve spent decades arguing about the power asymmetry in one direction — who has the cameras, who owns the data, who gets to watch.
+
+WorldView is sousveillance aesthetics. Same data streams. Same satellite feeds. Same CCTV cameras. But the interface is in your browser, and you control it.
+
+That’s a different power dynamic. I don’t know yet what all the implications are. But Lonsdale responding told me it’s real enough to push back on — and that matters.
+
+![](https://substackcdn.com/image/fetch/$s_!cfGV!,w_1456,c_limit,f_webp,q_auto:good,fl_lossy/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ff82f880a-b179-4012-a8eb-3f37437087b7_800x450.gif)
+
+### Where this goes
+
+WorldView is a demo. SpatialOS is the actual project.
+
+The spatial intelligence stack — the one that builds a continuously updating model of the physical world, ingests sensor data from satellites and cameras and IoT devices, and makes that model queryable by AI agents in real time — that’s what I’m building.
+
+WorldView shows what the view looks like. The thesis is about the intelligence that runs on top of it.
+
+Think of it this way: this demo is to SpatialOS what Google Maps is to Google’s location intelligence infrastructure. The map is the product people interact with. Underneath it — the data pipelines, the model updates, the location APIs that power a thousand other apps — that’s the real infrastructure.
+
+I’m building the infrastructure. The demo just happens to look like something out of a spy thriller.
+
+And apparently that’s enough to get the attention of people who’ve been building the actual thing for twenty years.
+
+I’ll keep writing as it develops.  
+  
+If this gave you something to think about, share it with fellow reality mappers. The future’s too interesting to navigate alone.
+
+— Bilawal

@@ -1,0 +1,61 @@
+{
+    "measurements": {
+        "Dust": {
+            "id": "dust",
+            "title":    "Dust",
+            "subtitle": "Aqua/AIRS, Geostationary Ring, GOES-East/ABI, GOES-West/ABI, MERRA-2",
+            "sources": {
+                "Aqua/AIRS": {
+                    "id": "aqua-airs",
+                    "title": "Aqua/AIRS",
+                    "description": "airs/Dust_Score",
+                    "image": "",
+                    "settings": [
+                        "AIRS_L2_Dust_Score_Day",
+                        "AIRS_L2_Dust_Score_Night",
+                        "OrbitTracks_Aqua_Ascending",
+                        "OrbitTracks_Aqua_Descending"
+                    ]
+                },
+                "Geostationary Ring": {
+                    "id": "geostationary-ring",
+                    "title": "Geostationary Ring (MSG/SEVIRI, Himawari/AHI, GOES/ABI)",
+                    "description": "",
+                    "image": "",
+                    "settings": [
+                      "EUMETSAT_RING_Dust_RGB"
+                    ]
+                  },
+                "GOES-East/ABI": {
+                    "id": "goes-east-abi",
+                    "title": "GOES-East/ABI",
+                    "description": "",
+                    "image": "",
+                    "settings": [
+                        "GOES-East_ABI_Dust"
+                    ]
+                },
+                "GOES-West/ABI": {
+                    "id": "goes-west-abi",
+                    "title": "GOES-West/ABI",
+                    "description": "",
+                    "image": "",
+                    "settings": [
+                        "GOES-West_ABI_Dust"
+                    ]
+                },
+                "MERRA-2": {
+                    "id": "merra2",
+                    "title": "MERRA-2",
+                    "description": "",
+                    "image": "",
+                    "settings": [
+                        "MERRA2_Dust_Surface_Mass_Concentration_PM25_Monthly",
+                        "MERRA2_Dust_Surface_Mass_Concentration_Monthly",
+                        "MERRA2_Total_Dust_Deposition_Dry_Wet_Monthly"
+                    ]
+                }
+            }
+        }
+    }
+}

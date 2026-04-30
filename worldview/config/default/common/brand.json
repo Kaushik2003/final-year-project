@@ -1,0 +1,9 @@
+{
+    "packageName":  "worldview",
+    "officialName": "NASA Worldview",
+    "longName":     "NASA Worldview",
+    "shortName":    "Worldview",
+    "description":  "Interactive satellite viewer",
+    "url":          "https://worldview.earthdata.nasa.gov/",
+    "email":        "earthdata-support@nasa.gov"
+}

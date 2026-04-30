@@ -1,0 +1,119 @@
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { Button } from 'reactstrap';
+import { withSearch } from '@elastic/react-search-ui';
+import FilterChips from './filter-chips';
+import ProductFacet from './product-facet';
+import {
+  toggleMobileFacets as toggleMobileFacetsAction,
+  collapseFacet as collapseFacetAction,
+} from '../../../../modules/product-picker/actions';
+import facetConfig from '../../../../modules/product-picker/facet-config';
+import { getSelectedDate } from '../../../../modules/date/selectors';
+
+function Facets(props) {
+  const {
+    isMobile,
+    screenWidth,
+    breakpoints,
+    facets,
+    filters,
+    removeFilter,
+    results,
+    showMobileFacets,
+    toggleMobileFacets,
+    collapsedFacets,
+    toggleCollapseFacet,
+  } = props;
+
+  const showFacets = (!isMobile && results.length) || showMobileFacets;
+
+  const classNames = isMobile || screenWidth < breakpoints.small ? 'facet-container-mobile facet-container' : 'facet-container';
+
+  return !showFacets
+    ? null
+    : (
+      <div className={classNames}>
+
+        <FilterChips
+          filters={filters}
+          removeFilter={removeFilter}
+          facetConfig={facetConfig}
+        />
+
+        <div className="inner-container">
+          {facetConfig.map((config) => {
+            const facet = facets[config.field];
+            const data = (facet && facet.length && facet[0].data) || [];
+
+            return (
+              <ProductFacet
+                key={config.field}
+                config={config}
+                data={data}
+                collapsed={collapsedFacets[config.field]}
+                toggleCollapse={toggleCollapseFacet}
+              />
+            );
+          })}
+        </div>
+
+        {isMobile && showMobileFacets && (
+          <Button
+            className="apply-facets"
+            onClick={toggleMobileFacets}
+          >
+            Apply
+          </Button>
+        )}
+      </div>
+    );
+}
+
+Facets.propTypes = {
+  collapsedFacets: PropTypes.oneOfType([PropTypes.object, PropTypes.oneOf(['null'])]),
+  facets: PropTypes.oneOfType([PropTypes.object, PropTypes.oneOf(['null'])]),
+  filters: PropTypes.oneOfType([PropTypes.array, PropTypes.oneOf(['null'])]),
+  isMobile: PropTypes.bool,
+  breakpoints: PropTypes.oneOfType([PropTypes.object, PropTypes.oneOf(['null'])]),
+  screenWidth: PropTypes.number,
+  removeFilter: PropTypes.func,
+  results: PropTypes.oneOfType([PropTypes.array, PropTypes.oneOf(['null'])]),
+  showMobileFacets: PropTypes.bool,
+  toggleCollapseFacet: PropTypes.func,
+  toggleMobileFacets: PropTypes.func,
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  toggleMobileFacets: () => {
+    dispatch(toggleMobileFacetsAction());
+  },
+  toggleCollapseFacet: (field) => {
+    dispatch(collapseFacetAction(field));
+  },
+});
+
+function mapStateToProps(state) {
+  const { screenSize, productPicker } = state;
+  const { showMobileFacets, collapsedFacets } = productPicker;
+
+  return {
+    collapsedFacets,
+    selectedDate: getSelectedDate(state),
+    isMobile: screenSize.isMobileDevice,
+    screenWidth: screenSize.screenWidth,
+    breakpoints: screenSize.breakpoints,
+    showMobileFacets,
+    screenSize,
+  };
+}
+export default withSearch(
+  ({
+    facets, filters, removeFilter, results,
+  }) => ({
+    facets, filters, removeFilter, results,
+  }),
+)(connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Facets));

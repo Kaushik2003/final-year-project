@@ -1,0 +1,125 @@
+@use "variables";
+
+.filter-controls {
+  display: flex;
+  background: #333;
+  padding: 5px;
+  max-width: 290px;
+  margin: 0 auto;
+  height: variables.$wv-sidebar-event-filter-height;
+
+  .filter-dates-icons {
+    display: inline-block;
+    max-width: 224px;
+    width: 224px;
+  }
+
+  .filter-dates {
+    color: #fff;
+    font-family: variables.$wv-monospace-font;
+    text-align: center;
+    padding: 3px 5px 6px;
+    font-size: 14px;
+    text-transform: uppercase;
+  }
+
+  .filter-icons {
+    margin-left: 6px;
+    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(10px, max-content));
+    max-width: 205px;
+    max-height: 32px;
+  }
+
+  .filter-button {
+    width: 40px !important;
+    margin: 5px 0 5px 5px;
+    height: 40px;
+    display: inline-block;
+    vertical-align: top;
+  }
+
+  .filter-button-hidden {
+    display: none !important;
+  }
+}
+
+.event-filter-modal {
+  width: 315px;
+}
+
+.event-filter-modal-mobile {
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+  margin: 0;
+
+  .modal-body {
+    padding: 5px 1rem;
+  }
+
+  .modal-content {
+    height: 100%;
+  }
+
+  .modal-body .category-toggles {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  .modal-body .wv-checkbox {
+    margin-top: 5px;
+  }
+}
+
+.events-filter {
+  .event-filter-date-range {
+    height: 50px;
+
+    .thru-label {
+      display: inline;
+      position: relative;
+      left: 30px;
+      top: 15px;
+    }
+
+    .wv-date-selector-widget {
+      &:first-of-type {
+        float: left;
+      }
+
+      &:last-of-type {
+        float: right;
+      }
+    }
+  }
+
+  .category-toggles {
+    margin: 20px 10px 15px;
+  }
+
+  .wv-checkbox {
+    margin: 15px 10px 0;
+    display: inline-block;
+  }
+
+  .wv-checkbox + svg {
+    display: inline-block;
+  }
+}
+
+.event-count {
+  color: #fff;
+  background: #333;
+  text-align: center;
+  padding: 10px 0;
+  width: 100%;
+  margin: 0 auto;
+  min-height: variables.$wv-sidebar-event-footer-height;
+  font-size: 15px;
+
+  svg {
+    margin-left: 6px;
+  }
+}

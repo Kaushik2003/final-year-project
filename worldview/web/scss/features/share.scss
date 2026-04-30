@@ -1,0 +1,85 @@
+.share-body {
+  height: 108px;
+
+  &.tall {
+    height: 148px;
+  }
+}
+
+.share-nav-container {
+  .input-group {
+    padding-top: 10px;
+  }
+
+  .share-tab-link {
+    p {
+      padding: 20px 1px;
+    }
+  }
+
+  .share-tab-embed {
+    p:first-of-type {
+      padding: 10px 1px;
+    }
+  }
+
+  .share-tab-cite-us {
+    textarea {
+      resize: none;
+      height: 70px;
+    }
+
+    p {
+      padding: 10px 1px;
+    }
+  }
+
+  & .nav-item {
+    flex: 1;
+  }
+
+  & .nav-link {
+    padding: 6px;
+  }
+
+  a:not(.share-embed-doc-link) {
+    color: #fff;
+    user-select: none;
+    cursor: pointer;
+
+    &:hover:not(.active) {
+      color: #fff !important;
+      text-decoration: none;
+    }
+  }
+
+  a.share-embed-doc-link,
+  #share-embed-doc-link {
+    color: #7bf;
+
+    &:hover {
+      color: #7df;
+      text-decoration: underline;
+    }
+  }
+
+  .wv-checkbox {
+    position: absolute;
+    right: 12px;
+    bottom: 14px;
+  }
+}
+
+#feedback-url, #api-doc-url {
+  cursor: pointer;
+  text-decoration: none;
+  color: #7bf;
+  border: none;
+  background: none;
+  padding: 0;
+}
+
+#feedback-url:hover, #api-doc-url:hover {
+  text-decoration: underline;
+  color: #7bf !important;
+}

@@ -1,0 +1,90 @@
+import {
+  assign as lodashAssign,
+  get as lodashGet,
+  isEmpty,
+  cloneDeep as lodashCloneDeep,
+} from 'lodash';
+import update from 'immutability-helper';
+import {
+  REQUEST_PALETTE_SUCCESS,
+  SET_CUSTOM,
+  REQUEST_PALETTE_START,
+  SET_THRESHOLD_RANGE_AND_SQUASH,
+  LOADED_CUSTOM_PALETTES,
+  BULK_PALETTE_RENDERING_SUCCESS,
+  BULK_PALETTE_PRELOADING_SUCCESS,
+  CLEAR_CUSTOM,
+  SET_DISABLED_CLASSIFICATION,
+} from './constants';
+import { INIT_SECOND_LAYER_GROUP, SYNC_SECOND_LAYER_GROUP } from '../layers/constants';
+
+export const defaultPaletteState = {
+  rendered: {},
+  custom: {},
+  active: {},
+  activeB: {},
+  isLoading: {},
+  tourStoryPalettes: {},
+};
+export function getInitialPaletteState(config) {
+  const rendered = lodashGet(config, 'palettes.rendered') || {};
+  const custom = lodashGet(config, 'palettes.custom') || {};
+  return lodashAssign({}, defaultPaletteState, {
+    rendered,
+    custom,
+  });
+}
+
+export function paletteReducer(state = defaultPaletteState, action) {
+  const groupName = action.groupName || 'active';
+  switch (action.type) {
+    case REQUEST_PALETTE_START:
+      return lodashAssign({}, state, {
+        isLoading: update(state.isLoading, {
+          [action.id]: { $set: true },
+        }),
+      });
+    case BULK_PALETTE_RENDERING_SUCCESS:
+      return update(state, {
+        rendered: { $merge: action.rendered || {} },
+      });
+    case BULK_PALETTE_PRELOADING_SUCCESS:
+      return update(state, {
+        tourStoryPalettes: { $merge: action.tourStoryPalettes || {} },
+      });
+    case REQUEST_PALETTE_SUCCESS: {
+      const isLoading = update(state.isLoading, { $unset: [action.id] });
+      return lodashAssign({}, state, {
+        rendered: lodashAssign({}, state.rendered, {
+          [action.id]: action.response,
+        }),
+        isLoading,
+      });
+    }
+    case INIT_SECOND_LAYER_GROUP:
+      if (!isEmpty(state.activeB)) return state;
+      return lodashAssign({}, state, {
+        activeB: lodashCloneDeep(state.active),
+      });
+    case SYNC_SECOND_LAYER_GROUP:
+      // Merge A's palette entries into B. B entries take precedence (listed
+      // second) so existing B-side customizations are preserved; new layers
+      // synced from A get A's palette settings as defaults.
+      return lodashAssign({}, state, {
+        activeB: lodashAssign({}, lodashCloneDeep(state.active), lodashCloneDeep(state.activeB)),
+      });
+    case SET_THRESHOLD_RANGE_AND_SQUASH:
+    case SET_CUSTOM:
+    case SET_DISABLED_CLASSIFICATION:
+    case CLEAR_CUSTOM:
+      return lodashAssign({}, state, {
+        [groupName]: action.palettes || {},
+      });
+    case LOADED_CUSTOM_PALETTES:
+      return lodashAssign({}, state, {
+        custom: action.custom || {},
+      });
+    default:
+      return state;
+  }
+}

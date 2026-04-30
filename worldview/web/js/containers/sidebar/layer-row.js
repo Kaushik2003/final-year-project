@@ -1,0 +1,958 @@
+/* eslint-disable react/jsx-props-no-spreading */
+
+import { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { useSortable } from '@dnd-kit/sortable';
+import { isEmpty as lodashIsEmpty, get as lodashGet } from 'lodash';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  UncontrolledTooltip, Dropdown, DropdownToggle, DropdownMenu, DropdownItem,
+} from 'reactstrap';
+import { faCircleDot, faCircle } from '@fortawesome/free-solid-svg-icons';
+import googleTagManager from 'googleTagManager';
+import PaletteLegend from '../../components/sidebar/paletteLegend';
+import util from '../../util/util';
+import { buildGranulesUrl, cmrFetch } from '../../util/cmr';
+import {
+  getPalette as getPaletteSelector,
+  getPaletteLegends,
+} from '../../modules/palettes/selectors';
+import { toggleCustomContent, openCustomContent } from '../../modules/modal/actions';
+import LayerInfo from '../../components/layer/info/info';
+import LayerSettings from '../../components/layer/settings/layer-settings';
+import { requestPalette as requestPaletteAction } from '../../modules/palettes/actions';
+import {
+  toggleVisibility as toggleVisibilityAction,
+  removeLayer as removeLayerAction,
+} from '../../modules/layers/actions';
+import OrbitTrack from './orbit-track';
+import Zot from './zot';
+import { isVectorLayerClickable } from '../../modules/layers/util';
+import { MODAL_PROPERTIES } from '../../modules/alerts/constants';
+import {
+  getActiveLayers, makeGetDescription, getCollections,
+} from '../../modules/layers/selectors';
+import { formatDailyDate, formatSubdailyDate } from '../../mapUI/components/kiosk/tile-measurement/utils/date-util';
+import { coverageDateFormatter } from '../../modules/date/util';
+import { SIDEBAR_LAYER_HOVER, MAP_RUNNING_DATA } from '../../util/constants';
+import {
+  updateActiveChartingLayerAction,
+} from '../../modules/charting/actions';
+import AlertUtil from '../../components/util/alert';
+import {
+  enableDDVZoomAlert as enableDDVZoomAlertAction,
+  enableDDVLocationAlert as enableDDVLocationAlertAction,
+  disableDDVLocationAlert as disableDDVLocationAlertAction,
+  disableDDVZoomAlert as disableDDVZoomAlertAction,
+} from '../../modules/alerts/actions';
+
+const { events } = util;
+const { vectorModalProps, granuleModalProps, zoomModalProps } = MODAL_PROPERTIES;
+const getItemStyle = (isDragging, sortableStyle) => ({
+  ...sortableStyle,
+  top: null,
+  left: null,
+  zIndex: isDragging ? 1 : undefined,
+});
+
+function LayerRow (props) {
+  const {
+    compare,
+    layer,
+    compareState,
+    collections,
+    ddvLocationAlerts,
+    ddvZoomAlerts,
+    paletteLegends,
+    getPalette,
+    palette,
+    renderedPalette,
+    requestPalette,
+    globalTemperatureUnit,
+    isCustomPalette,
+    isDistractionFreeModeActive,
+    isEmbedModeActive,
+    isLoading,
+    isMobile,
+    zot,
+    names,
+    onRemoveClick,
+    onInfoClick,
+    onOptionsClick,
+    hasClickableFeature,
+    openVectorAlertModal,
+    openGranuleAlertModal,
+    openZoomAlertModal,
+    toggleVisibility,
+    isDisabled,
+    isVisible,
+    hasPalette,
+    isInProjection,
+    tracksForLayer,
+    isVectorLayer,
+    isChartableLayer,
+    measurementDescriptionPath,
+    isAnimating,
+    palettes,
+    isChartingActive,
+    activeChartingLayer,
+    updateActiveChartingLayer,
+    enableDDVZoomAlert,
+    enableDDVLocationAlert,
+    disableDDVLocationAlert,
+    disableDDVZoomAlert,
+    map,
+    selectedDate,
+    describeDomainsUrl,
+    cmrBaseUrl,
+  } = props;
+
+  const encodedLayerId = util.encodeId(layer.id);
+  const sortableId = `${encodedLayerId}-${compareState}`;
+  const { title } = names;
+  const removeLayerBtnId = `close-${compareState}${encodedLayerId}`;
+  const removeLayerBtnTitle = 'Remove Layer';
+  const collectionIdentifierDescription = 'Dataset version and the source of data processing, Near Real-Time (NRT) or Standard (STD)';
+
+  const layerOptionsBtnId = `layer-options-btn-${encodedLayerId}`;
+  const layerOptionsBtnTitle = 'View Options';
+
+  const layerInfoBtnId = `layer-info-btn-${encodedLayerId}`;
+  const layerInfoBtnTitle = 'View Description';
+  const [showButtons, toggleShowButtons] = useState(isMobile);
+  const [showDropdownBtn, setDropdownBtnVisible] = useState(false);
+  const [showDropdownMenu, setDropdownMenuVisible] = useState(false);
+  const [runningDataObj, setRunningDataObj] = useState({});
+  const [disabled, setDisabled] = useState(isDisabled);
+  const [activeZot, setActiveZot] = useState(zot);
+  const [showZoomAlert, setShowZoomAlert] = useState(false);
+  const [showGranuleAlert, setShowGranuleAlert] = useState(false);
+  const [hideZoomAlert, setHideZoomAlert] = useState(false);
+  const [hideGranuleAlert, setHideGranuleAlert] = useState(false);
+
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    setActivatorNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({
+    id: sortableId,
+    disabled: isEmbedModeActive || isAnimating || isChartingActive,
+  });
+
+  const isDragDisabled = isEmbedModeActive || isAnimating || isChartingActive;
+
+  const sortableStyle = {
+    transform: transform ? `translate3d(${transform.x}px, ${transform.y}px, 0)` : undefined,
+    transition,
+  };
+
+  const ddvLayerZoomNoticeActive = ddvZoomAlerts.includes(layer.title);
+  const ddvLayerLocationNoticeActive = ddvLocationAlerts.includes(layer.title);
+  // All DDV layer notices are dismissable + Reflectance (Nadir BRDF-Adjusted) + DSWx-HLS
+  const isLayerNotificationDismissable = layer.type === 'titiler' || layer.title === 'Reflectance (Nadir BRDF-Adjusted)' || layer.subtitle === 'DSWx-HLS';
+
+  useEffect(() => {
+    const asyncFunc = async () => {
+      if (layer.enableCMRDataFinder && isVisible) {
+        const conceptID = layer?.conceptIds?.[0]?.value || layer?.collectionConceptID;
+        const dateTime = selectedDate?.toISOString().split('T');
+        dateTime.pop();
+        dateTime.push('00:00:00.000Z');
+        const zeroedDate = dateTime.join('T');
+        const maxExtent = [-180, -90, 180, 90];
+        // clamp extent to maximum extent allowed by the CMR api
+        const extent = map.extent.map((coord, i) => {
+          const condition = i <= 1 ? coord > maxExtent[i] : coord < maxExtent[i];
+          if (condition) {
+            return coord;
+          }
+          return maxExtent[i];
+        });
+        const olderUrl = buildGranulesUrl(cmrBaseUrl, {
+          conceptId: conceptID,
+          bbox: extent.join(','),
+          temporal: `P0Y0M0DT0H0M/${zeroedDate}`,
+          sortKey: '-start_date',
+          pageSize: 1,
+        });
+        const newerUrl = buildGranulesUrl(cmrBaseUrl, {
+          conceptId: conceptID,
+          bbox: extent.join(','),
+          temporal: `${zeroedDate}/P0Y0M1DT0H0M`,
+          sortKey: '-start_date',
+          pageSize: 1,
+        });
+        const requests = [cmrFetch(olderUrl), cmrFetch(newerUrl)];
+        const responses = await Promise.allSettled(requests);
+        const [olderRes, newerRes] = responses.filter(({ status }) => status === 'fulfilled').map(({ value }) => value);
+        if (!olderRes.ok || !newerRes.ok) return;
+        const jsonRequests = [olderRes.json(), newerRes.json()];
+        const jsonResponses = await Promise.allSettled(jsonRequests);
+        const [olderGranules, newerGranules] = jsonResponses.filter(({ status }) => status === 'fulfilled').map(({ value }) => value);
+        const olderEntries = olderGranules?.feed?.entry || [];
+        const newerEntries = newerGranules?.feed?.entry || [];
+        const granules = [...olderEntries, ...newerEntries];
+        if (zot?.underZoomValue > 0) {
+          setShowZoomAlert(true);
+        } else {
+          setShowZoomAlert(false);
+        }
+        if (!granules.length && !(zot?.underZoomValue > 0)) {
+          setActiveZot({ hasGranules: false });
+          setShowGranuleAlert(true);
+        } else {
+          setActiveZot(zot);
+          setShowGranuleAlert(false);
+        }
+        if (!granules.length) {
+          setDisabled(true);
+        } else {
+          setDisabled(isDisabled);
+        }
+      }
+    };
+    asyncFunc();
+  }, [map.extent, zot, selectedDate, isVisible]);
+
+  // hook that checks if the ddv layer zoom alert should be enabled or disabled
+  useEffect(() => {
+    const { title: layerTitle } = layer;
+    // if layer is ddv && layer IS NOT already in zoom alert list && zoom is at alertable level
+    if (isLayerNotificationDismissable && !ddvLayerZoomNoticeActive && showZoomAlert) {
+      enableDDVZoomAlert(layerTitle);
+    // if layer is ddv && layer IS already in zoom alert list && zoom is NOT at alertable level
+    } else if (isLayerNotificationDismissable && ddvLayerZoomNoticeActive && !showZoomAlert) {
+      disableDDVZoomAlert(layerTitle);
+    }
+  }, [showZoomAlert]);
+
+  // hook that checks if the ddv layer location alert should be enabled or disabled
+  useEffect(() => {
+    const { title: layerTitle } = layer;
+    // if layer is ddv && layer IS NOT already in location alert list
+    // && location is at alertable coordinates
+    if (isLayerNotificationDismissable && !ddvLayerLocationNoticeActive && showGranuleAlert) {
+      enableDDVLocationAlert(layerTitle);
+      // if layer is ddv && layer IS NOT already in location alert list
+      // && location is at alertable coordinates
+    } else if (isLayerNotificationDismissable &&
+      ddvLayerLocationNoticeActive && !showGranuleAlert) {
+      disableDDVLocationAlert(layerTitle);
+    }
+  }, [showGranuleAlert]);
+
+  useEffect(() => {
+    events.on(MAP_RUNNING_DATA, setRunningDataObj);
+    return () => {
+      events.off(MAP_RUNNING_DATA, setRunningDataObj);
+    };
+  }, []);
+
+  useEffect(() => {
+    setDisabled(isDisabled);
+  }, [isDisabled]);
+
+  const toggleDropdownMenuVisible = () => {
+    if (showDropdownMenu) {
+      setDropdownBtnVisible(false);
+    }
+    setDropdownMenuVisible(!showDropdownMenu);
+  };
+
+  const getPaletteLegend = () => {
+    if (!lodashIsEmpty(renderedPalette)) {
+      const runningDataForLayer = runningDataObj[layer.id];
+      const isRunningData = compare.active
+        ? compare.activeString === compareState && !!runningDataForLayer
+        : !!runningDataForLayer;
+      const colorHex = isRunningData ? runningDataForLayer.paletteHex : null;
+      let width = activeZot || zot ? 220 : 231;
+      if (isEmbedModeActive) {
+        width = 201;
+      }
+      return (
+        <PaletteLegend
+          layer={layer}
+          compareState={compareState}
+          paletteId={palette.id}
+          getPalette={getPalette}
+          width={width}
+          paletteLegends={paletteLegends}
+          isCustomPalette={isCustomPalette}
+          isRunningData={isRunningData}
+          colorHex={colorHex}
+          globalTemperatureUnit={globalTemperatureUnit}
+          isDistractionFreeModeActive={isDistractionFreeModeActive}
+          isEmbedModeActive={isEmbedModeActive}
+          isMobile={isMobile}
+          palettes={palettes}
+          showingVectorHand={isVectorLayer && isVisible}
+          showingChartingIcon={isChartableLayer && isVisible}
+        />
+      );
+    }
+    return undefined;
+  };
+
+  useEffect(() => {
+    // Request the layer palette only if it hasn't been loaded and is not currently being loaded
+    if (!isLoading && layer && hasPalette && lodashIsEmpty(renderedPalette)) {
+      requestPalette(layer.id);
+    }
+  }, [layer.id]);
+
+  const getDisabledTitle = (layerArg) => {
+    const {
+      endDate,
+      period,
+      startDate,
+    } = layerArg;
+
+    // start date
+    let layerStartDate;
+    if (startDate) {
+      layerStartDate = coverageDateFormatter('START-DATE', startDate, period);
+    }
+    // end date
+    let layerEndDate;
+    if (endDate) {
+      layerEndDate = coverageDateFormatter('END-DATE', endDate, period);
+    }
+
+    if (layerStartDate && layerEndDate) {
+      return (<> Data available between <br /> {layerStartDate} - {layerEndDate} </>);
+    } if (layerStartDate) {
+      return (<> Data available between <br /> {layerStartDate} - Present </>);
+    }
+    return 'No data on selected date for this layer';
+  };
+
+  // Prevent pointer/mouse events on controls from bubbling up and activating drag.
+  // Intentionally does NOT call preventDefault so clicks still fire (esp. on touch).
+  const stopDndActivation = (e) => {
+    if (e?.nativeEvent?.stopImmediatePropagation) {
+      e.nativeEvent.stopImmediatePropagation();
+    }
+    if (e?.stopPropagation) {
+      e.stopPropagation();
+    }
+  };
+
+  const stopPropagation = (e) => {
+    e.nativeEvent.stopImmediatePropagation();
+    e.stopPropagation();
+    e.preventDefault();
+  };
+
+  // function called on click when removing a layer
+  const removeLayer = () => {
+    const { id, title: layerTitle } = layer;
+    // remove ddv location alert
+    if (ddvLayerLocationNoticeActive) {
+      disableDDVLocationAlert(layerTitle);
+    }
+    // remove ddv zoom alert
+    if (ddvLayerZoomNoticeActive) {
+      disableDDVZoomAlert(layerTitle);
+    }
+    // remove layer
+    onRemoveClick(id);
+  };
+
+  const renderDropdownMenu = () => (
+    <Dropdown className="layer-group-more-options" isOpen={showDropdownMenu} toggle={toggleDropdownMenuVisible}>
+      <DropdownToggle
+        onPointerDown={stopDndActivation}
+        onMouseDown={stopDndActivation}
+      >
+        <FontAwesomeIcon
+          className="layer-group-more"
+          icon="ellipsis-v"
+          widthAuto
+        />
+      </DropdownToggle>
+      <DropdownMenu container="body" className="layer-options-dropdown-menu">
+        <DropdownItem
+          id={layerInfoBtnId}
+          aria-label={layerInfoBtnTitle}
+          className="button wv-layers-info layer-options-dropdown-item"
+          onClick={() => onInfoClick(layer, title, measurementDescriptionPath, describeDomainsUrl)}
+        >
+          {layerInfoBtnTitle}
+        </DropdownItem>
+        <DropdownItem
+          id={layerOptionsBtnId}
+          aria-label={layerOptionsBtnTitle}
+          className="button wv-layers-options layer-options-dropdown-item"
+          onClick={() => onOptionsClick(layer, title, zot)}
+        >
+          {layerOptionsBtnTitle}
+        </DropdownItem>
+        <DropdownItem
+          id={removeLayerBtnId}
+          onClick={() => removeLayer()}
+          className="button wv-layers-options layer-options-dropdown-item"
+        >
+          {removeLayerBtnTitle}
+        </DropdownItem>
+      </DropdownMenu>
+    </Dropdown>
+  );
+
+  const renderControls = () => !isAnimating && (
+    <>
+      {showDropdownBtn || isMobile ? renderDropdownMenu() : null}
+      {!isChartingActive && (
+        <button
+          type="button"
+          id={removeLayerBtnId}
+          aria-label={removeLayerBtnTitle}
+          className={isMobile ? 'hidden wv-layers-options' : 'button wv-layers-close'}
+          onPointerDown={stopDndActivation}
+          onMouseDown={stopDndActivation}
+          onClick={() => removeLayer()}
+        >
+          <UncontrolledTooltip id="center-align-tooltip" placement="top" target={removeLayerBtnId}>
+            {removeLayerBtnTitle}
+          </UncontrolledTooltip>
+          <FontAwesomeIcon icon="times" fixedWidth widthAuto />
+        </button>
+      )}
+      <button
+        type="button"
+        id={layerOptionsBtnId}
+        aria-label={layerOptionsBtnTitle}
+        className={isMobile ? 'hidden wv-layers-options' : 'button wv-layers-options'}
+        onPointerDown={stopDndActivation}
+        onMouseDown={stopPropagation}
+        onClick={() => onOptionsClick(layer, title, zot)}
+      >
+        <UncontrolledTooltip id="center-align-tooltip" placement="top" target={layerOptionsBtnId}>
+          {layerOptionsBtnTitle}
+        </UncontrolledTooltip>
+        <FontAwesomeIcon icon="sliders-h" className="wv-layers-options-icon" widthAuto />
+      </button>
+      <button
+        type="button"
+        id={layerInfoBtnId}
+        aria-label={layerInfoBtnTitle}
+        className={isMobile ? 'hidden wv-layers-info' : 'button wv-layers-info'}
+        onPointerDown={stopDndActivation}
+        onMouseDown={stopPropagation}
+        onClick={() => onInfoClick(layer, title, measurementDescriptionPath, describeDomainsUrl)}
+      >
+        <UncontrolledTooltip id="center-align-tooltip" placement="top" target={layerInfoBtnId}>
+          {layerInfoBtnTitle}
+        </UncontrolledTooltip>
+        <FontAwesomeIcon icon="fa-solid fa-info" className="wv-layers-info-icon" widthAuto />
+      </button>
+    </>
+  );
+
+  const renderVectorIcon = () => {
+    const classNames = hasClickableFeature
+      ? 'layer-pointer-icon'
+      : 'layer-pointer-icon disabled';
+    const titleStr = hasClickableFeature
+      ? 'You can click the features of this layer to see associated metadata.'
+      : 'Zoom in further to click features.';
+    const layerVectorBtnId = `layer-vector-hand-btn-${encodedLayerId}`;
+    return (
+      <button
+        type="button"
+        id={layerVectorBtnId}
+        aria-label={titleStr}
+        className={runningDataObj ? `${classNames} running` : classNames}
+        onPointerDown={stopDndActivation}
+        onMouseDown={stopPropagation}
+        onClick={openVectorAlertModal}
+      >
+        <UncontrolledTooltip id="center-align-tooltip" placement="top" target={layerVectorBtnId}>
+          {titleStr}
+        </UncontrolledTooltip>
+        <FontAwesomeIcon icon="hand-pointer" fixedWidth widthAuto />
+      </button>
+    );
+  };
+
+  const renderChartingIcon = () => {
+    const titleStr = 'Select Start Charting to create time series charts or get statistics for this layer';
+    const layerChartableBtnId = `layer-chartable-btn-${encodedLayerId}`;
+    return (
+      <div
+        role="note"
+        id={layerChartableBtnId}
+        aria-label={titleStr}
+        className="layer-chartable-icon"
+        onPointerDown={stopDndActivation}
+        onMouseDown={stopPropagation}
+      >
+        <UncontrolledTooltip id="center-align-tooltip" placement="top" target={layerChartableBtnId}>
+          {titleStr}
+        </UncontrolledTooltip>
+        <i />
+      </div>
+    );
+  };
+
+  const mouseOver = () => {
+    if (isMobile) return;
+    events.trigger(SIDEBAR_LAYER_HOVER, layer.id, true);
+    toggleShowButtons(true);
+  };
+
+  const mouseLeave = () => {
+    if (isMobile) return;
+    events.trigger(SIDEBAR_LAYER_HOVER, layer.id, false);
+    toggleShowButtons(false);
+  };
+
+  const getLayerItemClasses = () => {
+    let baseClasses = 'item productsitem layer-enabled';
+    if (isAnimating) baseClasses += ' disabled';
+    if (!isVisible || disabled || layer.shouldHide) {
+      baseClasses += ' layer-hidden';
+    } else {
+      baseClasses += ' layer-visible';
+    }
+    if (activeZot || zot) baseClasses += ' zotted';
+    if (layer.shouldHide) baseClasses += ' mini';
+    return baseClasses;
+  };
+
+  const getVisibilityToggleClass = () => {
+    let baseClasses = 'visibility';
+    if (disabled || isAnimating || layer.shouldHide) {
+      baseClasses += ' disabled';
+    } else {
+      baseClasses += ' layer-enabled';
+    }
+    if (isVisible && !disabled && !layer.shouldHide) {
+      baseClasses += ' layer-visible';
+    } else {
+      baseClasses += ' layer-hidden';
+    }
+    return baseClasses;
+  };
+
+  const disabledTitle = disabled ? getDisabledTitle(layer) : 'Hide layer';
+  const visibilityTitle = !isVisible && !disabled ? 'Show layer' : disabledTitle;
+
+  const visibilityIcon = !isVisible ? ['fas', 'eye-slash'] : ['fas', 'eye'];
+  const visibilityIconClass = disabled ? 'ban' : visibilityIcon;
+
+  const collectionClass = collections?.type === 'NRT' ? 'collection-title badge rounded-pill bg-secondary' : 'collection-title badge rounded-pill text-dark bg-light';
+  const vectorLayerMinHeight = isVectorLayer ? '60px' : '40px';
+
+  const makeActiveForCharting = (layerArg) => {
+    if (layerArg !== activeChartingLayer) {
+      updateActiveChartingLayer(layerArg);
+    }
+  };
+  const handleKeyDown = (e, layerId) => {
+    if (e.key === 'Enter') {
+      return makeActiveForCharting(layerId);
+    }
+    return null;
+  };
+
+  const renderLayerRow = () => (
+    <>
+      {(!isEmbedModeActive && !isChartingActive) && (
+        <button
+          type="button"
+          id={`hide${encodedLayerId}`}
+          className={getVisibilityToggleClass()}
+          aria-label={visibilityTitle}
+          onPointerDown={stopDndActivation}
+          onMouseDown={stopDndActivation}
+          onClick={() => !isAnimating && !disabled && toggleVisibility(layer.id, !isVisible)}
+        >
+          {!isAnimating && (
+            <UncontrolledTooltip
+              id="center-align-tooltip"
+              placement="right"
+              target={`hide${encodedLayerId}`}
+            >
+              {visibilityTitle}
+            </UncontrolledTooltip>
+          )}
+          <FontAwesomeIcon icon={visibilityIconClass} className="layer-eye-icon" widthAuto />
+        </button>
+      )}
+      {isChartingActive && (
+        !layer.shouldHide
+          ? (
+            <>
+              <div />
+              <button
+                type="button"
+                role="radio"
+                tabIndex={0}
+                aria-checked={layer.id === activeChartingLayer}
+                id={`activate-${encodedLayerId}`}
+                className={layer.id === activeChartingLayer ? 'layer-visible visibility active-chart' : 'layer-visible visibility'}
+                onClick={() => makeActiveForCharting(layer.id)}
+                onKeyDown={(e) => handleKeyDown(e, layer.id)}
+              >
+                <UncontrolledTooltip
+                  id="center-align-tooltip"
+                  placement="right"
+                  target={`activate-${encodedLayerId}`}
+                >
+                  Select layer for processing
+                </UncontrolledTooltip>
+                {layer.id === activeChartingLayer
+                  ? (
+                    <FontAwesomeIcon
+                      icon={faCircleDot}
+                      className="charting-indicator"
+                      widthAuto
+                    />
+                  )
+                  : (
+                    <FontAwesomeIcon
+                      icon={faCircle}
+                      className="charting-indicator"
+                      widthAuto
+                    />
+                  )}
+              </button>
+            </>
+          )
+          : (
+            <a className={getVisibilityToggleClass()} />
+          )
+      )}
+      <Zot zot={activeZot || zot} layer={layer.id} isMobile={isMobile} />
+
+      <div className={isVectorLayer ? 'layer-main wv-vector-layer' : 'layer-main'}>
+        <div
+          className="layer-info"
+          style={{
+            minHeight: layer.shouldHide ? '22px' : vectorLayerMinHeight,
+            cursor: isDragDisabled ? undefined : (isDragging ? 'grabbing' : 'grab'),
+          }}
+          ref={setActivatorNodeRef}
+          {...attributes}
+          {...listeners}
+        >
+          <div className="layer-buttons">
+            {showButtons && renderControls()}
+          </div>
+          <h4 title={names.title}>{names.title}</h4>
+          {!layer.shouldHide && (
+            <div className="instrument-collection">
+              <p dangerouslySetInnerHTML={{ __html: names.subtitle }} />
+
+              {collections && isVisible
+                ? (
+                  <h6>
+                    <span id="collection-identifier" className={collectionClass}>
+                      {collections.version} {collections.type}
+                      <UncontrolledTooltip id="center-align-tooltip" placement="right" target="collection-identifier" boundariesElement="wv-content" delay={{ show: 250, hide: 0 }}>
+                        {collectionIdentifierDescription}
+                      </UncontrolledTooltip>
+                    </span>
+                  </h6>
+                )
+                : ''}
+            </div>
+          )}
+
+          {hasPalette && !layer.shouldHide ? getPaletteLegend() : ''}
+        </div>
+        {isVisible && !layer.shouldHide && (isChartableLayer || isVectorLayer) && (
+          <div className="layer-buttons-container">
+            {isVectorLayer ? renderVectorIcon() : null}
+            {isChartableLayer && !isChartingActive ? renderChartingIcon() : null}
+          </div>
+        )}
+        {tracksForLayer.length > 0 && !layer.shouldHide && (
+          <div className="layer-tracks">
+            {tracksForLayer.map((track) => (
+              <OrbitTrack
+                key={track.id}
+                trackLayer={track}
+                parentLayer={layer}
+              />
+            ))}
+          </div>
+        )}
+        {showZoomAlert && !hideZoomAlert &&
+        !isLayerNotificationDismissable && !layer.shouldHide && (
+          <AlertUtil
+            id="zoom-alert"
+            isOpen
+            title="Zoom in to see imagery for this layer"
+            messageTitle={layer.title}
+            message="Imagery is not available at this zoom level."
+            onDismiss={() => setHideZoomAlert(true)}
+            onClick={openZoomAlertModal}
+          />
+        )}
+        {showGranuleAlert && !hideGranuleAlert &&
+        !isLayerNotificationDismissable && !layer.shouldHide && (
+          <AlertUtil
+            id="granule-alert"
+            isOpen
+            title="Try moving the map or select a different date in the layer's settings."
+            messageTitle={layer.title}
+            message="Imagery is not available at this location or date."
+            onDismiss={() => setHideGranuleAlert(true)}
+            onClick={openGranuleAlertModal}
+          />
+        )}
+      </div>
+    </>
+  );
+
+  if (isInProjection) {
+    return (
+      <li
+        id={`${compareState}-${encodedLayerId}`}
+        className={getLayerItemClasses()}
+        style={getItemStyle(isDragging, { ...sortableStyle })}
+        ref={setNodeRef}
+        onMouseOver={mouseOver}
+        onMouseLeave={mouseLeave}
+      >
+        {renderLayerRow()}
+      </li>
+    );
+  }
+
+  return (
+    <li
+      className="layer-list-placeholder"
+      ref={setNodeRef}
+      {...attributes}
+      {...listeners}
+    />
+  );
+}
+
+const makeMapStateToProps = () => {
+  const getDescriptionPath = makeGetDescription();
+  return (state, ownProps) => {
+    const {
+      layer,
+      isVisible,
+      compareState,
+    } = ownProps;
+    const {
+      screenSize, palettes, config, embed, map,
+      compare, proj, ui, settings, animation, layers, date,
+    } = state;
+    const isMobile = screenSize.isMobileDevice;
+    const { isDistractionFreeModeActive } = ui;
+    const globalTemperatureUnit = lodashGet(ownProps, 'layer.disableUnitConversion') ? '' : settings.globalTemperatureUnit;
+    const hasPalette = !lodashIsEmpty(layer.palette);
+    const renderedPalettes = palettes.rendered;
+    const paletteName = lodashGet(config, `layers['${layer.id}'].palette.id`);
+    const paletteLegends = hasPalette && renderedPalettes[paletteName]
+      ? getPaletteLegends(layer.id, compareState, state)
+      : [];
+    const isCustomPalette = hasPalette && palettes.custom[layer.id];
+    const { isEmbedModeActive } = embed;
+    const selectedMap = lodashGet(map, 'ui.selected');
+    const isVector = layer.type === 'vector';
+    const isChartable = Object.prototype.hasOwnProperty.call(layer, 'palette') && state.palettes.rendered[layer.palette.id] && state.palettes.rendered[layer.palette.id].maps[0].type === 'continuous' && layer.layerPeriod === 'Daily' && !layer.disableCharting;
+    const mapRes = selectedMap ? selectedMap.getView().getResolution() : null;
+    const tracksForLayer = getActiveLayers(state).filter(
+      (activeLayer) => (layer.orbitTracks || []).some((track) => activeLayer.id === track),
+    );
+    const activeDate = compare.activeString === 'active' ? date.selected : date.selectedB;
+    const dailyDate = formatDailyDate(activeDate);
+    const selectedDate = compare.activeString === 'active' ? date.selected : date.selectedB;
+    const subdailyDate = formatSubdailyDate(activeDate);
+    const collections = getCollections(layers, dailyDate, subdailyDate, layer, proj.id);
+    const measurementDescriptionPath = getDescriptionPath(state, ownProps);
+    const { ddvZoomAlerts, ddvLocationAlerts } = state.alerts;
+    const describeDomainsUrl = config?.features?.describeDomains?.url || 'https://gibs.earthdata.nasa.gov';
+    const cmrBaseUrl = config?.features?.cmr?.url;
+
+    return {
+      compare,
+      collections,
+      ddvLocationAlerts,
+      ddvZoomAlerts,
+      tracksForLayer,
+      measurementDescriptionPath,
+      globalTemperatureUnit,
+      isCustomPalette,
+      isDistractionFreeModeActive,
+      isEmbedModeActive,
+      isLoading: palettes.isLoading[paletteName],
+      isMobile,
+      isVisible,
+      isVectorLayer: isVector,
+      isChartableLayer: isChartable,
+      isAnimating: animation.isPlaying,
+      hasClickableFeature: isVector && isVisible &&
+      isVectorLayerClickable(layer, mapRes, proj.id, isMobile),
+      hasPalette,
+      getPalette: (layerId, i) => getPaletteSelector(layer.id, i, compareState, state),
+      paletteLegends,
+      palettes,
+      map,
+      selectedDate,
+      renderedPalette: renderedPalettes[paletteName],
+      describeDomainsUrl,
+      cmrBaseUrl,
+    };
+  };
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  toggleVisibility: (id, isVisible) => {
+    dispatch(toggleVisibilityAction(id, isVisible));
+  },
+  openVectorAlertModal: () => {
+    const { id, props } = vectorModalProps;
+    dispatch(openCustomContent(id, props));
+  },
+  openGranuleAlertModal: () => {
+    const { id, props } = granuleModalProps;
+    dispatch(openCustomContent(id, props));
+  },
+  openZoomAlertModal: () => {
+    const { id, props } = zoomModalProps;
+    dispatch(openCustomContent(id, props));
+  },
+  onRemoveClick: (id) => {
+    dispatch(removeLayerAction(id));
+  },
+  onOptionsClick: (layer, title, zot) => {
+    const key = `LAYER_OPTIONS_MODAL-${layer.id}`;
+    googleTagManager.pushEvent({
+      event: 'sidebar_layer_options',
+    });
+    dispatch(
+      toggleCustomContent(key, {
+        headerText: title || 'Layer Options',
+        backdrop: false,
+        bodyComponent: LayerSettings,
+        // Using clickableBehindModal: true here causes an issue where switching sidebar
+        // tabs does not close this modal
+        wrapClassName: 'clickable-behind-modal',
+        modalClassName: ' sidebar-modal layer-settings-modal',
+        timeout: 150,
+        bodyComponentProps: {
+          layer,
+          zot,
+        },
+      }),
+    );
+  },
+  onInfoClick: (layer, title, measurementDescriptionPath, describeDomainsUrl) => {
+    const key = `LAYER_INFO_MODAL-${layer.id}`;
+    googleTagManager.pushEvent({
+      event: 'sidebar_layer_info',
+    });
+    dispatch(
+      toggleCustomContent(key, {
+        headerText: title || 'Layer Description',
+        backdrop: false,
+        bodyComponent: LayerInfo,
+        // Using clickableBehindModal: true here causes an issue where switching sidebar
+        // tabs does not close this modal
+        wrapClassName: 'clickable-behind-modal',
+        modalClassName: ' sidebar-modal layer-info-modal',
+        timeout: 150,
+        size: 'lg',
+        bodyComponentProps: {
+          layer,
+          measurementDescriptionPath,
+          describeDomainsUrl,
+        },
+      }),
+    );
+  },
+  requestPalette: (id) => {
+    dispatch(requestPaletteAction(id));
+  },
+  updateActiveChartingLayer: (layersId) => {
+    dispatch(updateActiveChartingLayerAction(layersId));
+  },
+  enableDDVZoomAlert: (title) => {
+    dispatch(enableDDVZoomAlertAction(title));
+  },
+  enableDDVLocationAlert: (title) => {
+    dispatch(enableDDVLocationAlertAction(title));
+  },
+  disableDDVLocationAlert: (title) => {
+    dispatch(disableDDVLocationAlertAction(title));
+  },
+  disableDDVZoomAlert: (title) => {
+    dispatch(disableDDVZoomAlertAction(title));
+  },
+});
+
+export default connect(
+  makeMapStateToProps,
+  mapDispatchToProps,
+)(LayerRow);
+
+LayerRow.defaultProps = {
+  palette: {},
+};
+
+LayerRow.propTypes = {
+  compare: PropTypes.oneOfType([PropTypes.object, PropTypes.oneOf(['null'])]),
+  getPalette: PropTypes.func,
+  hasPalette: PropTypes.bool,
+  globalTemperatureUnit: PropTypes.string,
+  hover: PropTypes.func,
+  isCustomPalette: PropTypes.bool,
+  isDisabled: PropTypes.bool,
+  isDistractionFreeModeActive: PropTypes.bool,
+  isEmbedModeActive: PropTypes.bool,
+  isInProjection: PropTypes.bool,
+  isLoading: PropTypes.bool,
+  isMobile: PropTypes.bool,
+  isVisible: PropTypes.bool,
+  layer: PropTypes.oneOfType([PropTypes.object, PropTypes.oneOf(['null'])]),
+  collections: PropTypes.oneOfType([PropTypes.object, PropTypes.oneOf(['null'])]),
+  compareState: PropTypes.string,
+  measurementDescriptionPath: PropTypes.string,
+  names: PropTypes.oneOfType([PropTypes.object, PropTypes.oneOf(['null'])]),
+  onInfoClick: PropTypes.func,
+  onOptionsClick: PropTypes.func,
+  onRemoveClick: PropTypes.func,
+  updateActiveChartingLayer: PropTypes.func,
+  palette: PropTypes.oneOfType([PropTypes.object, PropTypes.oneOf(['null'])]),
+  palettes: PropTypes.oneOfType([PropTypes.object, PropTypes.oneOf(['null'])]),
+  paletteLegends: PropTypes.oneOfType([PropTypes.array, PropTypes.oneOf(['null'])]),
+  renderedPalette: PropTypes.oneOfType([PropTypes.object, PropTypes.oneOf(['null'])]),
+  requestPalette: PropTypes.func,
+  toggleVisibility: PropTypes.func,
+  hasClickableFeature: PropTypes.bool,
+  tracksForLayer: PropTypes.oneOfType([PropTypes.array, PropTypes.oneOf(['null'])]),
+  openVectorAlertModal: PropTypes.func,
+  openGranuleAlertModal: PropTypes.func,
+  zot: PropTypes.oneOfType([PropTypes.object, PropTypes.oneOf(['null'])]),
+  isVectorLayer: PropTypes.bool,
+  isChartableLayer: PropTypes.bool,
+  isAnimating: PropTypes.bool,
+  isChartingActive: PropTypes.bool,
+  activeChartingLayer: PropTypes.string,
+  enableDDVZoomAlert: PropTypes.func,
+  enableDDVLocationAlert: PropTypes.func,
+  isDDVLocationAlertPresent: PropTypes.bool,
+  isDDVZoomAlertPresent: PropTypes.bool,
+  openZoomAlertModal: PropTypes.func,
+  ddvLocationAlerts: PropTypes.oneOfType([PropTypes.array, PropTypes.oneOf(['null'])]),
+  ddvZoomAlerts: PropTypes.oneOfType([PropTypes.array, PropTypes.oneOf(['null'])]),
+  disableDDVLocationAlert: PropTypes.func,
+  disableDDVZoomAlert: PropTypes.func,
+  map: PropTypes.oneOfType([PropTypes.object, PropTypes.oneOf(['null'])]),
+  selectedDate: PropTypes.instanceOf(Date),
+  describeDomainsUrl: PropTypes.string,
+  cmrBaseUrl: PropTypes.string,
+};

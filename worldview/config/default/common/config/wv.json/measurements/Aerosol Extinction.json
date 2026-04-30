@@ -1,0 +1,39 @@
+{
+  "measurements": {
+        "Aerosol Extinction": {
+            "id": "aerosol-extinction",
+            "title":    "Aerosol Extinction",
+            "subtitle": "Suomi NPP/OMPS LP, NOAA-21/OMPS LP",
+            "sources": {
+                "Suomi NPP/OMPS LP": {
+                    "id": "suomi-npp-omps-lp",
+                    "title": "Suomi NPP/OMPS LP",
+                    "description": "",
+                    "image": "",
+                    "settings": [
+		                "OMPS_SNPP_LimbProfiler_Aerosol_ExtinctionCoefficient_12KM",
+		                "OMPS_SNPP_LimbProfiler_Aerosol_ExtinctionCoefficient_14KM",
+	                    "OMPS_SNPP_LimbProfiler_Aerosol_ExtinctionCoefficient_16KM",
+	                  	"OMPS_SNPP_LimbProfiler_Aerosol_ExtinctionCoefficient_18KM",
+	                  	"OMPS_SNPP_LimbProfiler_Aerosol_ExtinctionCoefficient_20KM",
+                        "OMPS_SNPP_LimbProfiler_AerosolHeight"
+                    ]
+                },
+                "NOAA-21/OMPS LP": {
+                    "id": "noaa-21-omps-lp",
+                    "title": "NOAA-21/OMPS LP",
+                    "description": "",
+                    "image": "",
+                    "settings": [
+		                "OMPS_NOAA21_LimbProfiler_Aerosol_ExtinctionCoefficient_12KM",
+		                "OMPS_NOAA21_LimbProfiler_Aerosol_ExtinctionCoefficient_14KM",
+	                    "OMPS_NOAA21_LimbProfiler_Aerosol_ExtinctionCoefficient_16KM",
+	                  	"OMPS_NOAA21_LimbProfiler_Aerosol_ExtinctionCoefficient_18KM",
+	                  	"OMPS_NOAA21_LimbProfiler_Aerosol_ExtinctionCoefficient_20KM",
+                        "OMPS_NOAA21_LimbProfiler_AerosolHeight"
+                    ]
+                }
+            }
+        }
+    }
+}
