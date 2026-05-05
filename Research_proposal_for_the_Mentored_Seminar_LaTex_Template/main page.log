@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2026.5.1)  5 MAY 2026 20:49
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2026.5.1)  5 MAY 2026 22:22
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -2089,11 +2089,6 @@ Class scrbook Warning: Redefinition of \@makechapterhead detected.
 (scrbook)              KOMA-Script and will not work with a coming version,
 (scrbook)              that will remove this deprecated code.
 
-
-Underfull \hbox (badness 1609) in paragraph at lines 7--8
-\T1/ptm/m/n/12 com-pan-ion com-puter, cam-era mod-ule, LD2410 radar, and GPS. On-board pro-cess-ing
- []
-
 ) [4
 
 
@@ -2230,21 +2225,21 @@ Underfull \hbox (badness 1221) in paragraph at lines 31--31
 
 
 ]
-Underfull \hbox (badness 1478) in paragraph at lines 51--51
+Underfull \hbox (badness 1478) in paragraph at lines 48--48
 []\T1/ptm/m/n/12 Reference ar-chi-tec-ture for edge AI and sen-sor fu-sion
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 52--52
+Underfull \hbox (badness 10000) in paragraph at lines 49--49
 []\T1/ptm/m/n/12 Low-cost surveil-lance pro-to-type for mon-i-tor-ing
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 53--53
+Underfull \hbox (badness 10000) in paragraph at lines 50--50
 []\T1/ptm/m/n/12 Disaster-response
  []
 
-) [6] [7]
+) [6]
 \openout2 = `chapter4-literature-review.aux'.
 
  (./chapter4-literature-review.tex
@@ -2265,18 +2260,18 @@ Underfull \hbox (badness 1092) in paragraph at lines 12--13
 []\T1/ptm/m/n/12 Wojke et al. [[][]11[][]] pro-posed Deep-SORT, com-bin-ing Kalman fil-ter-ing and ap-pear-ance
  []
 
-[8
+[7
 
 
 
 
 
-] [9]
+] [8]
 Underfull \hbox (badness 1515) in paragraph at lines 44--45
 []\T1/ptm/m/n/12 Chadwick et al. [[][]8[][]] demon-strated that com-bin-ing radar and cam-era cues im-proves
  []
 
-) [10]
+) [9]
 \openout2 = `"chapter4-proposed method.aux"'.
 
  (./chapter4-proposed method.tex
@@ -2293,9 +2288,9 @@ Class scrbook Warning: Redefinition of \@makechapterhead detected.
 (scrbook)              that will remove this deprecated code.
 
 
-LaTeX Warning: Reference `fig:system_architecture' on page 11 undefined on input line 14.
+LaTeX Warning: Reference `fig:system_architecture' on page 10 undefined on input line 14.
 
-[11
+[10
 
 
 
@@ -2306,9 +2301,9 @@ Underfull \hbox (badness 1496) in paragraph at lines 69--70
 []\T1/ptm/b/n/12 Raspberry Pi Cam-era Mod-ule v2 \T1/ptm/m/n/12 (8 MP, Sony IMX219): pro-vides a 1080p
  []
 
-[12]
+[11]
 
-LaTeX Warning: Reference `tab:ai_stack' on page 13 undefined on input line 116.
+LaTeX Warning: Reference `tab:ai_stack' on page 12 undefined on input line 116.
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 126--126
@@ -2340,9 +2335,9 @@ Overfull \hbox (1.06024pt too wide) in paragraph at lines 123--135
  [][] 
  []
 
-[13] [14]
+[12] [13]
 
-LaTeX Warning: Reference `fig:dataflow' on page 15 undefined on input line 165.
+LaTeX Warning: Reference `fig:dataflow' on page 14 undefined on input line 165.
 
 
 ./chapter4-proposed method.tex:191: Package pgfkeys Error: The key '/tikz/step' requires a value. I am going to ignore this key.
@@ -2509,7 +2504,7 @@ Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
 
-LaTeX Warning: Reference `tab:metrics' on page 15 undefined on input line 197.
+LaTeX Warning: Reference `tab:metrics' on page 14 undefined on input line 197.
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 207--207
@@ -2579,7 +2574,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 213--213
 []\T1/ptm/m/n/12 CPU $\OML/ztmcm/m/it/12 <$\T1/ptm/m/n/12 85%, RAM
  []
 
-) [15] [16]
+) [14] [15]
 \openout2 = `"chapter5-Research Gap Identification.aux"'.
 
  (./chapter5-Research Gap Identification.tex
@@ -2596,10 +2591,10 @@ Class scrbook Warning: Redefinition of \@makechapterhead detected.
 (scrbook)              that will remove this deprecated code.
 
 
-LaTeX Warning: Reference `Literature_Review' on page 17 undefined on input line 14.
+LaTeX Warning: Reference `Literature_Review' on page 16 undefined on input line 14.
 
 
-LaTeX Warning: Reference `tab:research_gap' on page 17 undefined on input line 26.
+LaTeX Warning: Reference `tab:research_gap' on page 16 undefined on input line 26.
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 36--36
@@ -2806,13 +2801,13 @@ Overfull \hbox (1.36859pt too wide) in paragraph at lines 33--44
  [][] 
  []
 
-[17
+[16
 
 
 
 
 
-] [18]
+] [17]
 Underfull \hbox (badness 2409) in paragraph at lines 58--59
 \T1/ptm/m/n/12 (Robu.in, Ama-zon.in) within the stated bud-get. All soft-ware com-po-nents ---
  []
@@ -2822,7 +2817,7 @@ Underfull \hbox (badness 2384) in paragraph at lines 62--63
 []\T1/ptm/b/n/12 Novelty. \T1/ptm/m/n/12 The spe-cific com-bi-na-tion of low-cost air-borne mmWave radar with
  []
 
-) [19]
+) [18]
 \openout2 = `chapter6-Objectives.aux'.
 
  (./chapter6-Objectives.tex
@@ -2863,7 +2858,7 @@ Underfull \hbox (badness 7099) in paragraph at lines 27--28
 \T1/ptm/m/n/12 Kalman-filter po-si-tion pre-dic-tion, and a Doppler--Constant False Alarm Rate
  []
 
-[20
+[19
 
 
 
@@ -2874,12 +2869,12 @@ Underfull \hbox (badness 6625) in paragraph at lines 41--42
 []\T1/ptm/b/n/12 To im-ple-ment the war-room dash-board \T1/ptm/m/n/12 on top of the NASA World-view
  []
 
-[21]
+[20]
 Underfull \hbox (badness 1728) in paragraph at lines 57--58
 \T1/ptm/m/n/12 per-for-mance against the Ru-View Wi-Fi CSI vital-signs ex-trac-tion ap-proach as a
  []
 
-) [22]
+) [21]
 \openout2 = `chapter7-workplan.aux'.
 
  (./chapter7-workplan.tex
@@ -2895,13 +2890,13 @@ Class scrbook Warning: Redefinition of \@makechapterhead detected.
 (scrbook)              KOMA-Script and will not work with a coming version,
 (scrbook)              that will remove this deprecated code.
 
-[23
+[22
 
 
 
 
 
-] [24]) [25]
+] [23]) [24]
 Underfull \hbox (badness 10000) in paragraph at lines 285--285
 []\T1/ptm/m/n/12 PLFM_-RADAR con-trib-u-tors. \T1/ptm/m/it/12 PLFM_-RADAR / AERIS-10: Open-source
  []
@@ -2921,7 +2916,7 @@ Underfull \hbox (badness 1308) in paragraph at lines 285--285
 []\T1/ptm/m/n/12 Yue Zheng et al. ^^P  Zero-Effort Cross-Domain Ges-ture Recog-ni-tion With Wi-Fi^^Q.
  []
 
-[26
+[25
 
 
 
@@ -2933,7 +2928,7 @@ Underfull \hbox (badness 1308) in paragraph at lines 285--285
 Package caption Warning: Unused \captionsetup[algorithm] on input line 159.
 See the caption package documentation for explanation.
 
-[27] (./main page.aux (./bibtext/Abstract.aux) (./chapter1-introduction.aux) (./chapter2-problem statement.aux) (./chapter3-significance.aux) (./chapter4-literature-review.aux) (./chapter4-proposed method.aux) (./chapter5-Research Gap Identification.aux) (./chapter6-Objectives.aux) (./chapter7-workplan.aux))
+[26] (./main page.aux (./bibtext/Abstract.aux) (./chapter1-introduction.aux) (./chapter2-problem statement.aux) (./chapter3-significance.aux) (./chapter4-literature-review.aux) (./chapter4-proposed method.aux) (./chapter5-Research Gap Identification.aux) (./chapter6-Objectives.aux) (./chapter7-workplan.aux))
 
 LaTeX Warning: There were undefined references.
 
@@ -2958,18 +2953,18 @@ Package logreq Info: Writing requests to '"main page".run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 48914 strings out of 476041
- 1011700 string characters out of 5793175
+ 48911 strings out of 476041
+ 1011676 string characters out of 5793175
  1876954 words of memory out of 6000000
- 68409 multiletter control sequences out of 15000+600000
+ 68408 multiletter control sequences out of 15000+600000
  571248 words of font info for 132 fonts, out of 8000000 for 9000
  1137 hyphenation exceptions out of 8191
  108i,18n,117p,10729b,2151s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/cm-super/sfsx1440.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/cm-super/sfsx1728.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/cm-super/sfsx2488.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/cm-super/sftt1200.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/symbol/usyr.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on "main page.pdf" (32 pages, 297482 bytes).
+Output written on "main page.pdf" (31 pages, 296074 bytes).
 PDF statistics:
- 535 PDF objects out of 1000 (max. 8388607)
- 467 compressed objects within 5 object streams
- 146 named destinations out of 1000 (max. 500000)
- 386 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 525 PDF objects out of 1000 (max. 8388607)
+ 458 compressed objects within 5 object streams
+ 144 named destinations out of 1000 (max. 500000)
+ 378 words of extra memory for PDF output out of 10000 (max. 10000000)
 

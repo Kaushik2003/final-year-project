@@ -1856,10 +1856,12 @@ INPUT ./bibtext/Abstract.tex
 INPUT bibtext/Abstract.tex
 INPUT ./bibtext/Abstract.tex
 INPUT bibtext/Abstract.tex
+INPUT /usr/share/texlive/texmf-dist/fonts/tfm/adobe/times/ptmri8t.tfm
+INPUT /usr/share/texlive/texmf-dist/fonts/vf/adobe/times/ptmri8t.vf
+INPUT /usr/share/texlive/texmf-dist/fonts/tfm/adobe/times/ptmri8r.tfm
 INPUT /usr/share/texlive/texmf-dist/fonts/vf/adobe/times/zptmcm7m.vf
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/adobe/times/psyro.tfm
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmmi10.tfm
-INPUT /usr/share/texlive/texmf-dist/fonts/tfm/adobe/times/ptmri8r.tfm
 INPUT /usr/share/texlive/texmf-dist/fonts/vf/adobe/times/zptmcm7t.vf
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/adobe/symbol/psyr.tfm
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/adobe/times/ptmr8r.tfm
@@ -1988,8 +1990,6 @@ INPUT ./chapter5-Research Gap Identification.tex
 INPUT chapter5-Research Gap Identification.tex
 INPUT ./chapter5-Research Gap Identification.tex
 INPUT chapter5-Research Gap Identification.tex
-INPUT /usr/share/texlive/texmf-dist/fonts/tfm/adobe/times/ptmri8t.tfm
-INPUT /usr/share/texlive/texmf-dist/fonts/vf/adobe/times/ptmri8t.vf
 INPUT ./chapter6-Objectives.tex
 INPUT ./chapter6-Objectives.tex
 INPUT ./chapter6-Objectives.tex
