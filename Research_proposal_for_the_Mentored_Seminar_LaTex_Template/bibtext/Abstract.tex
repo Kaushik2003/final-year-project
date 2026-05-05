@@ -1,3 +1,13 @@
+% !TeX root = ../main page.tex
 \chapter{Abstract}
 \onehalfspacing
 
+Cameras still dominate surveillance, yet pictures alone fail where visibility collapses---night patrols, smoke after a fire, fog near coastlines, or targets half-hidden behind trees and structures. Radar behaves differently: it keeps responding when optics cannot. The trade-off is meaning---radar rarely tells you \emph{who} or \emph{what} moved without heavy interpretation. Our goal is to bridge that gap without enterprise-grade budgets.
+
+We develop a compact aerial prototype built around an F450 frame, Raspberry~Pi~4, standard Pi camera, LD2410 24~GHz radar, and GPS. On the drone we run YOLOv8-pose for people and posture cues, ByteTrack to hold identities across drops in visibility, and a Doppler--CFAR--MTI chain on radar samples so motion is not guessed from pixels alone. A small Multi-Layer Perceptron (MLP) merges radar and vision features into one threat score per track---simple enough to ship on Pi-class silicon.
+
+Alerts go beyond bounding boxes: lightweight rules flag loitering, intrusion-like motion, crowded clustering, and possible falls; a Kalman filter rolls tracks forward a few seconds for warning lead time. Streams leave the aircraft over WebSocket/MQTT into a backend that feeds a command-centre-style dashboard and an AR handset app for whoever is on the ground. Stored events can be queried through an LLM-assisted interface so operators are not forced to write SQL mid-incident.
+
+We plan to judge the stack honestly---vision-only vs.\ radar-only vs.\ fused paths---using precision, recall, $F_1$, latency, and robustness checks on data we collect ourselves. Success means a documented, inexpensive rig that survives bad weather better than cameras alone while staying reproducible for labs like ours.
+
+\textbf{Keywords:} Multi-modal surveillance, sensor fusion, UAV, mmWave radar, edge AI.

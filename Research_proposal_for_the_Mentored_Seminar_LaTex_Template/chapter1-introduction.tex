@@ -1,16 +1,37 @@
+% !TeX root = ../main page.tex
 \chapter{Introduction}
+\label{Introduction}
+
+Surveillance and situational awareness are now central to defence, public safety, disaster response, and industrial security. In most real deployments, systems still depend heavily on visible-spectrum cameras. This creates a major reliability gap because camera performance drops under low light, smoke, fog, dust, dense foliage, and partial occlusion. These are exactly the environments where robust monitoring is most critical.
+
+At the same time, low-cost embedded computing, edge AI frameworks, and compact RF sensors have matured enough to support practical multi-modal surveillance prototypes. This creates an opportunity to combine visual and signal-based sensing in a unified architecture that is both technically effective and affordable for academic-scale deployment.
+
+\section{Problem Context in India}
+In the Indian context, surveillance challenges are common in border-adjacent regions, industrial campuses, and disaster-prone areas where visibility is frequently degraded. UAV-based systems are attractive because they can rapidly cover wide terrain, but camera-only UAV platforms are still vulnerable to environmental conditions.
+
+India's Directorate General of Civil Aviation (DGCA) regulations also shape practical implementation. Any multi-sensor UAV prototype above nano category thresholds must comply with registration and operational-zone requirements. Therefore, a deployable research prototype must be designed not only for technical performance but also for regulatory feasibility and local hardware availability.
+
+\section{Proposed System Overview}
+The proposed system is an end-to-end multi-modal aerial surveillance framework with four connected components:
+\begin{enumerate}[label=(\arabic*).]
+    \item \textbf{Drone sensing node:} Quadcopter with Raspberry~Pi~4, camera, LD2410 24~GHz radar, and GPS.
+    \item \textbf{Backend server:} WebSocket/MQTT aggregation, behaviour analysis, event storage, and trajectory prediction.
+    \item \textbf{War-room dashboard:} Real-time map, live feed, alerts, and query interface.
 
 
-%----------Focus on the following points during discusion------------
+On-device inference combines YOLOv8-pose for human detection, ByteTrack for multi-object tracking, and a Doppler--CFAR--MTI radar pipeline. A lightweight fusion MLP estimates a unified threat score per tracked target.
 
-% Explain the context of the problem
-% State why the topic is important
-% Mention current trends or scenario
-% Give a brief overview of the domain
+\section{Open-Source Repositories Used}
+The project design is informed by two major open-source references:
+\begin{itemize}
+    \item \textbf{PLFMRADAR~\cite{plfm_radar}:} signal-processing concepts for Doppler/MTI/CFAR and radar workflow grounding.
+    \item \textbf{RuView~\cite{ruview}:} streaming architecture, tracker patterns, and RF-aware sensing pipeline references.
+\end{itemize}
 
+These references are adapted to a low-cost UAV-centric implementation rather than being reused directly.
 
+\section{Scope and Limitations}
+This work focuses on a prototype-level demonstration under controlled field trials. The scope includes real-time detection, tracking, fusion-based threat scoring, behaviour alerts, and interface-level operational visualization. It does not claim full defence-grade deployment.
 
-
-
-
+Current limitations include constrained sensing range from low-cost radar, dependence on self-collected dataset scale, and environmental variability in outdoor operation. Stretch goals such as thermal fusion and long-range telemetry are treated as optional enhancements beyond core objectives.
 

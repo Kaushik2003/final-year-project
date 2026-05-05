@@ -1,10 +1,66 @@
+% !TeX root = ../main page.tex
 \chapter{Research Gap Identification}
 \label{Research_Gap_Identification}
-    
-%----------Focus on the following points during discusion------------
 
+%----------Focus on the following points during discussion------------
 % Clearly define the problem you are addressing
 % Identify specific gaps in current systems/research
 % Ensure the gap is:
 %     Precise
 %     Researchable
+
+
+\section{Summary of Existing Work}
+The background surveyed in Chapter~\ref{Literature_Review} reveals strong individual progress across four complementary domains:
+
+\begin{itemize}
+    \item \textbf{Aerial imaging}: YOLOv8-pose delivers accurate, low-latency human detection with posture estimation; ByteTrack provides robust multi-object tracking across partial occlusions.
+    \item \textbf{Radar detection}: CFAR, MTI, and Doppler-FFT algorithms are well-established for robust detection under clutter; low-cost 24~GHz mmWave modules bring these capabilities within a student budget.
+    \item \textbf{Wi-Fi CSI sensing}: SpotFi, FarSense, and Widar~3.0 demonstrate device-free presence, motion, and pose estimation; the RuView project provides a production-grade software reference.
+    \item \textbf{Multi-modal fusion}: feature-level MLP fusion consistently outperforms single-modality baselines in radar--camera systems; edge AI on Raspberry~Pi~4 makes on-board fusion feasible.
+\end{itemize}
+
+Despite this progress, the integration of these techniques into a single, low-cost, reproducible airborne prototype with a unified operator interface remains largely absent from the published literature.
+
+\section{Identified Research Gaps}
+Table~\ref{tab:research_gap} maps each principal limitation of existing work to the specific gap it creates and the response proposed in this project.
+
+\begin{table}[H]
+\centering
+\caption{Mapping of existing limitations to identified research gaps and proposed responses.}
+\label{tab:research_gap}
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{|p{0.28\textwidth}|p{0.32\textwidth}|p{0.32\textwidth}|}
+\hline
+\thead{Existing Limitation} & \thead{Research Gap} & \thead{Proposed Response} \\ \hline
+Camera-only UAV systems fail under smoke, fog, low light, and foliage occlusion. & No low-cost airborne platform combines visible-spectrum imaging with a penetrating RF modality. & Co-mount LD2410 24~GHz radar with Pi Camera on same F450 UAV; fuse streams on RPi~4. \\ \hline
+Radar-only sensors lack semantic classification (human vs.\ vehicle vs.\ clutter). & No commodity airborne solution provides simultaneous Doppler detection and visual classification. & YOLOv8-pose for visual classification plus radar for Doppler velocity; MLP fuses both into a single threat score. \\ \hline
+Wi-Fi CSI sensing literature is confined to indoor, fixed-node scenarios. & Passive RF sensing patterns are not integrated with aerial platforms or geospatial fusion. & Use RuView algorithmic patterns (Kalman tracker, WebSocket API) as software reference; apply CSI concepts to radar signal processing on UAV. \\ \hline
+UAV imaging and ground sensors operate in isolated architectures with separate operator interfaces. & No unified end-to-end architecture from drone sensor to operator dashboard to soldier AR app exists in open-source literature. & Four-component architecture (drone, backend server, war-room dashboard, soldier AR app) connected by WebSocket and MQTT. \\ \hline
+PLFM\_RADAR and RuView exist as separate, domain-specific projects. & No combined design applies the algorithmic strengths of both inside one surveillance framework. & Adapt PLFM\_RADAR Python CFAR/MTI scripts for LD2410; adopt RuView streaming API patterns for backend. \\ \hline
+Behavior analysis (loitering, breach, group formation) on edge hardware is rarely demonstrated end-to-end. & Rule-based behavior engines over fused multi-modal tracks lack published low-resource implementations. & Behavior-analysis engine operating on ByteTrack and radar fused tracks; deployed on backend server. \\ \hline
+Commercial multi-sensor UAV platforms cost many lakhs of rupees. & No budget-constrained multi-modal aerial surveillance reference design within INR~20{,}000 exists. & Full prototype with documented Bill of Materials targeting INR~10{,}000 to INR~20{,}000. \\ \hline
+\end{tabular}
+\end{table}
+
+\section{Central Research Gap Statement}
+On the basis of the analysis above, the central research gap is stated as follows:
+
+\begin{quote}
+\itshape
+Current surveillance systems commonly operate as isolated camera, radar, or wireless-sensing platforms. There is limited practical integration of UAV-borne aerial imaging, low-cost millimetre-wave radar signal-based detection, and edge artificial intelligence within a single open-source surveillance framework that is reproducible on commodity hardware, is formally evaluated against both single-modality baselines, and exposes a unified operator interface comprising both a war-room geospatial dashboard and a soldier-facing Augmented Reality application. This project addresses that gap by proposing a modular multi-modal aerial surveillance architecture in which a radar--vision Multi-Layer Perceptron fusion model is the principal academic contribution.
+\end{quote}
+
+\section{Why the Gap is Researchable}
+The identified gap satisfies three criteria for a researchable problem:
+
+\begin{enumerate}[label=(\arabic*).]
+    \item \textbf{Feasibility.} All hardware components are procurable through Indian distributors (Robu.in, Amazon.in) within the stated budget. All software components --- YOLOv8-pose, ByteTrack, ONNX Runtime, ArduPilot, NASA Worldview, React Native, Google ARCore, FastAPI, and the Claude API --- are freely available under open-source or free-tier licences.
+
+    \item \textbf{Evaluability.} The primary academic claim --- that the fused MLP detector outperforms vision-only and radar-only baselines --- is directly testable using precision, recall, and $F_1$ score computed over a self-collected field dataset of approximately 500 labelled samples. Additional metrics (tracking continuity, alert latency, LLM query correctness) are also operationally measurable.
+
+    \item \textbf{Novelty.} The specific combination of low-cost airborne mmWave radar with YOLOv8-pose fusion, evaluated on aerial data collected by the project team, has not been published to the team's knowledge at the time of proposal submission. The micro-Doppler vital-signs stretch objective adds a further novel dimension.
+\end{enumerate}
+
+\section{Boundary Between Gap and Scope}
+The project does \emph{not} claim to address the following: (i)~long-range active radar coverage beyond the LD2410's practical sensing envelope (approximately 5--10~m for human detection), (ii)~night or thermal imaging (thermal camera is a stretch item), (iii)~autonomous swarm behaviour, or (iv)~encrypted or secure communications.

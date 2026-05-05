@@ -1,9 +1,38 @@
 \chapter{Problem Statement}
+\label{Problem_Statement}
+
+\section{Context}
+Surveillance systems operate in critical environments such as borders, industrial facilities, disaster zones, and public spaces, where reliable detection and tracking are essential. Despite advancements in sensors and processing, most systems rely on a single sensing modality, creating a fundamental limitation in challenging environmental conditions.
+
+\section{Limitations of Existing Systems}
+
+Existing approaches exhibit four major limitations:
+
+\begin{enumerate}[label=\textbf{L\arabic*.}]
+
+\item \textbf{Visual-Spectrum Dependency.}  
+Camera-based systems degrade under low light, smoke, fog, and occlusion. Thermal cameras partially address this but are costly, power-intensive, and still lack direct range and velocity estimation.
+
+\item \textbf{Limited Semantics in RF Systems.}  
+Radar provides range and Doppler-based velocity information but lacks semantic understanding such as object type or posture. CSI-based methods (SpotFi~\cite{kotaru2015spotfi}, FarSense~\cite{zhang2019farsense}, Widar~3.0~\cite{zheng2019zero}) enable sensing in controlled environments but are not suitable for aerial deployment.
+
+\item \textbf{Architectural Fragmentation.}  
+Aerial platforms and ground-based sensors operate independently, preventing cross-modal fusion, unified tracking, and coherent situational awareness, increasing operator workload.
+
+\item \textbf{High Cost and Closed Systems.}  
+Commercial multi-modal platforms (e.g., Anduril EagleEye~\cite{anduril_eagleeye}) are expensive and proprietary, limiting accessibility, extensibility, and academic reproducibility.
+
+\end{enumerate}
+
+\section{Problem Statement}
 
 
-%----------Focus on the following points during discusion------------
+Existing surveillance systems rely primarily on single-modality sensing and exhibit significant performance degradation in low-visibility and non-line-of-sight conditions. Radar-based systems provide kinematic information but lack semantic interpretation, while current architectures fail to integrate aerial and ground sensing into a unified framework. Furthermore, existing multi-modal solutions are cost-prohibitive and closed in design.
 
-% Summarize existing research work
-% Highlight key findings
-% Identify limitations/gaps
-% Show how your work is different or needed
+There is therefore a need for a modular, low-cost multi-modal aerial surveillance system that integrates UAV-based imaging with signal-based detection (24~GHz mmWave radar), performs on-board fusion using edge AI, and delivers a unified situational-awareness interface for both operators and field users.
+\end{quote}
+
+
+\section{Scope Boundary}
+
+The system targets detection of persons and vehicles at altitudes of 10--50~m and ranges up to 50~m. Evaluation is conducted using a self-collected dataset in controlled environments. The system is a prototype and excludes autonomous flight and offensive RF applications.

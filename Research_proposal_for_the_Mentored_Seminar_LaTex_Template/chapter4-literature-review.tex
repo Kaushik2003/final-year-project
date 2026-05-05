@@ -1,14 +1,60 @@
 \chapter{Literature Review}
 \label{Literature_Review}
-% A sample citation:  Watanabe et al. \cite{watanabe20232d} proposed .....
 
+This chapter reviews representative research relevant to the proposed multi-modal aerial surveillance system. The discussion follows the style of paper-wise analysis and highlights how each prior work contributes to the problem space. The review is grouped into four themes: UAV vision-based detection, radar-based sensing, Wi-Fi CSI and passive RF sensing, and multi-modal fusion with edge artificial intelligence. The chapter concludes with a synthesis that directly motivates the proposed system architecture.
 
-\textcolor{red}{\textbf{Change chapter name from `Literature Review' to `Background' if your project is product oriented}}
+\section{UAV-Based Aerial Imaging and Detection}
 
-%----------Focus on the following points during discusion------------
+Redmon et al.~\cite{redmon2016yolo} introduced the YOLO detection framework and showed that unified single-stage object detection can achieve real-time speed while maintaining strong accuracy. This work established the baseline for many practical surveillance systems where low latency is critical.
 
-% Summarize existing research work
-% Highlight key findings
-% Identify limitations/gaps
-% Show how your work is different or needed
+Jocher et al.~\cite{jocher2023yolov8} advanced this line with YOLOv8 and demonstrated improved training stability, faster inference variants, and broader task support including pose estimation. The pose branch is especially useful for behaviour-level surveillance because it captures posture cues rather than only bounding boxes.
 
+Wojke et al.~\cite{wojke2017deepsort} proposed DeepSORT, combining Kalman filtering and appearance embeddings for identity-preserving multi-object tracking. Their method significantly reduced identity switches compared to motion-only association.
+
+Zhang et al.~\cite{zhang2022bytetrack} introduced ByteTrack and showed that associating both high- and low-confidence detections improves trajectory continuity under partial occlusion. This is directly relevant to aerial scenes where targets are often intermittently visible because of viewpoint changes and clutter.
+
+Although these works provide strong visual detection and tracking foundations, camera-only pipelines remain sensitive to adverse weather, illumination changes, smoke, and foliage occlusion. They also do not directly provide radar-like range-velocity cues, motivating the inclusion of complementary sensing.
+
+\section{Radar-Based Detection}
+
+Skolnik~\cite{skolnik2008radar} and Richards~\cite{richards2014principles} provide the theoretical basis for practical radar perception, including Doppler processing, Moving Target Indication (MTI), and Constant False Alarm Rate (CFAR) detection. These techniques remain central for extracting motion from cluttered environments.
+
+Patole et al.~\cite{patole2017automotive} surveyed automotive radar pipelines and highlighted radar's robustness in poor visibility, especially when optical sensors degrade. Their review also emphasised the challenge of semantic classification using radar alone.
+
+Santra and Hazra~\cite{santra2020short} demonstrated short-range mmWave radar for human motion and gesture understanding using micro-Doppler patterns. Their results confirmed that RF sensing can preserve detection capability in challenging visual conditions.
+
+In practical low-cost systems, modules such as LD2410 make radar sensing accessible; however, radar-only pipelines still face limited spatial detail and weaker semantic interpretation than vision systems. This motivates feature-level fusion rather than single-modality operation.
+
+\section{Wi-Fi Channel State Information and Passive RF Sensing}
+
+Kotaru et al.~\cite{kotaru2015spotfi} proposed SpotFi and demonstrated device-free localization from Wi-Fi CSI using fine-grained channel information. Their results established CSI as a viable passive sensing signal beyond communication.
+
+Zhang et al.~\cite{zhang2019farsense} presented FarSense and showed how CSI phase/amplitude fluctuations can be used for respiration estimation. This work is important because it demonstrates subtle physiological sensing without wearable devices.
+
+Zheng et al.~\cite{zheng2019zero} introduced Widar 3.0 for cross-domain gesture recognition and improved generalisation across environments and users. Their study highlighted how domain adaptation is critical for robust RF sensing.
+
+Recent open-source implementations such as RuView~\cite{ruview} show practical real-time CSI data pipelines, tracker integration, and edge-to-dashboard streaming patterns. Even when CSI is not used as the primary modality in outdoor UAV operation, these architectural and algorithmic patterns are valuable references for robust RF-aware system design.
+
+Most CSI literature remains strongest in indoor/static deployments and is sensitive to multipath noise, which limits direct transfer to airborne outdoor surveillance. Therefore, CSI is treated in this work as conceptual and architectural guidance rather than the primary sensing channel.
+
+\section{Multi-Modal Sensor Fusion and Edge Artificial Intelligence}
+
+Khaleghi et al.~\cite{khaleghi2013multisensor} categorised multi-sensor fusion into early, feature-level, and decision-level strategies. Their taxonomy is used in this proposal to justify selecting feature-level fusion for balancing interpretability, computational cost, and performance.
+
+Chadwick et al.~\cite{chadwick2019distantvehicle} demonstrated that combining radar and camera cues improves distant-object detection reliability over camera-only baselines. Their findings support the argument that fusion is most beneficial when one modality weakens.
+
+Nabati et al.~\cite{nabati2021centerfusion} proposed CenterFusion and showed that radar-camera feature integration improves object detection quality and robustness in adverse scenarios. This work motivates the use of lightweight learned fusion in this proposal.
+
+On the deployment side, open-source systems such as PLFM\_RADAR~\cite{plfm_radar} demonstrate accessible signal-processing workflows, while modern embedded hardware (for example Raspberry~Pi-class devices) enables practical edge inference for low-cost prototypes.
+
+Despite progress, most published multi-modal systems either depend on expensive sensor stacks or focus on ground-vehicle contexts rather than UAV-centric field deployment with unified operator interfaces.
+
+\section{Synthesis}
+
+The reviewed works collectively indicate four clear conclusions:  
+(i) vision models offer strong semantic understanding but are vulnerable in degraded visibility;  
+(ii) radar sensing is robust under poor visual conditions but weak in semantic interpretation;  
+(iii) CSI research provides useful RF sensing and pipeline ideas, but mostly in indoor settings; and  
+(iv) fusion improves reliability, yet low-cost UAV-native end-to-end implementations remain limited.
+
+Therefore, the proposed project positions itself as a practical integration effort: combining UAV-based imaging, low-cost mmWave radar, edge AI fusion, behaviour analysis, and real-time dashboard/mobile interfaces into one reproducible surveillance framework suitable for resource-constrained academic and operational contexts.

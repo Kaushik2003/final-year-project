@@ -1,6 +1,53 @@
 \chapter{Significance of the Study}
+\label{Significance}
 
-%----------Focus on the following points during discusion------------
+\section{Overview}
+The proposed multi-modal aerial surveillance system is significant across academic, industrial, and societal dimensions, offering both technical contributions and practical applicability.
 
-% discuss about Who benefits  
-% how Academic / industrial / societal impact
+\section{Academic Significance}
+
+The core contribution is a radar--vision fusion Multi-Layer Perceptron (MLP) deployed on a Raspberry~Pi~4, extending prior radar--camera fusion work~\cite{nabati2021centerfusion,chadwick2019distantvehicle} to low-cost UAV platforms. The comparison of vision-only, radar-only, and fused models provides a reproducible benchmark.
+
+The integration of YOLOv8-pose, ByteTrack, and Doppler--CFAR--MTI radar processing demonstrates real-time edge AI feasibility on embedded hardware, with insights into performance and resource constraints. A rule-based behavior-analysis engine detects events such as loitering, intrusion, abnormal motion, and person-down using fused kinematic features.
+
+A stretch contribution includes micro-Doppler vital sign detection (breathing $\approx 0.3$~Hz) using low-cost 24~GHz radar. Additionally, an LLM-based interface enables natural-language querying of a real-time detection database, contributing to LLM-assisted decision systems. Together, these components demonstrate that advanced sensing, reasoning, and decision-support capabilities can be achieved on commodity hardware, making the system both technically novel and practically deployable.
+
+\section{Industrial and Operational Significance}
+
+The proposed architecture enables a range of real-world applications by combining robust sensing, real-time inference, and intuitive user interfaces. Its ability to operate under degraded visibility conditions and provide actionable intelligence makes it suitable for deployment in both civilian and defence scenarios.
+
+\begin{table}[H]
+\centering
+\caption{Key operational use cases and enabling capabilities.}
+\label{tab:use_cases}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|p{4.5cm}|p{9cm}|}
+\hline
+\thead{Use Case} & \thead{Capability} \\ \hline
+Border / perimeter monitoring & Radar + vision fusion enables detection under occlusion and poor visibility. \\ \hline
+Industrial surveillance & Behavior analysis detects loitering, intrusion, and group formation. \\ \hline
+Disaster response & Radar penetrates smoke/debris; micro-Doppler detects survivors (stretch). \\ \hline
+Field situational awareness & AR mobile app provides real-time threat visualization and alerts. \\ \hline
+Operator analysis & LLM-based query interface enables fast database interrogation. \\ \hline
+\end{tabular}
+\end{table}
+
+The system architecture (drone edge AI, backend, dashboard, AR app) is adaptable to diverse surveillance scenarios.
+
+\section{Beneficiaries}
+
+\begin{table}[H]
+\centering
+\caption{Primary beneficiaries.}
+\label{tab:beneficiaries}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|p{4cm}|p{10cm}|}
+\hline
+\thead{Beneficiary} & \thead{Benefit} \\ \hline
+Researchers & Multi-modal UAV sensing platform and benchmark dataset. \\ \hline
+Students & Reference architecture for edge AI and sensor fusion projects. \\ \hline
+Security agencies & Low-cost surveillance prototype for monitoring applications. \\ \hline
+Disaster-response teams & Detection capability in smoke and debris environments. \\ \hline
+Industrial operators & Affordable drone-based monitoring complementing CCTV. \\ \hline
+\end{tabular}
+\end{table}

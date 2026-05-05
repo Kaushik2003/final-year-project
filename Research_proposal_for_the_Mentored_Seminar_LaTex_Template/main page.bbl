@@ -1,0 +1,641 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated as
+% required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+\datalist[entry]{none/global//global/global/global}
+  \entry{plfm_radar}{misc}{}{}
+    \name{author}{1}{}{%
+      {{hash=P}{%
+         family={{PLFM\_RADAR contributors}},
+         familyi={P\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{P1}
+    \strng{fullhash}{P1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{howpublished}{\url{https://github.com/}}
+    \field{note}{Open-hardware/open-firmware project; accessed 2026}
+    \field{title}{{PLFM\_RADAR / AERIS-10}: Open-source 10.5~{GHz} pulse-{LFM} phased-array radar}
+    \field{year}{2024}
+  \endentry
+
+  \entry{ruview}{misc}{}{}
+    \name{author}{1}{}{%
+      {{hash=R}{%
+         family={{RuView contributors}},
+         familyi={R\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{R1}
+    \strng{fullhash}{R1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{howpublished}{\url{https://github.com/}}
+    \field{note}{Open-source project; accessed 2026}
+    \field{title}{{RuView}: Wi-Fi Channel-State-Information Human Pose Estimation Using {ESP32-S3}}
+    \field{year}{2025}
+  \endentry
+
+  \entry{kotaru2015spotfi}{inproceedings}{}{}
+    \name{author}{4}{}{%
+      {{hash=KM}{%
+         family={Kotaru},
+         familyi={K\bibinitperiod},
+         given={Manikanta},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=JK}{%
+         family={Joshi},
+         familyi={J\bibinitperiod},
+         given={Kiran},
+         giveni={K\bibinitperiod},
+      }}%
+      {{hash=BD}{%
+         family={Bharadia},
+         familyi={B\bibinitperiod},
+         given={Dinesh},
+         giveni={D\bibinitperiod},
+      }}%
+      {{hash=KS}{%
+         family={Katti},
+         familyi={K\bibinitperiod},
+         given={Sachin},
+         giveni={S\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{KM+1}
+    \strng{fullhash}{KMJKBDKS1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{booktitle}{Proceedings of the {ACM} Conference on Special Interest Group on Data Communication ({SIGCOMM})}
+    \field{pages}{269\bibrangedash 282}
+    \field{title}{{SpotFi}: Decimeter Level Localization Using {WiFi}}
+    \field{year}{2015}
+  \endentry
+
+  \entry{zhang2019farsense}{inproceedings}{}{}
+    \name{author}{7}{}{%
+      {{hash=ZY}{%
+         family={Zhang},
+         familyi={Z\bibinitperiod},
+         given={Youwei},
+         giveni={Y\bibinitperiod},
+      }}%
+      {{hash=ZY}{%
+         family={Zheng},
+         familyi={Z\bibinitperiod},
+         given={Yuanqing},
+         giveni={Y\bibinitperiod},
+      }}%
+      {{hash=QK}{%
+         family={Qian},
+         familyi={Q\bibinitperiod},
+         given={Kun},
+         giveni={K\bibinitperiod},
+      }}%
+      {{hash=ZG}{%
+         family={Zhang},
+         familyi={Z\bibinitperiod},
+         given={Guidong},
+         giveni={G\bibinitperiod},
+      }}%
+      {{hash=LY}{%
+         family={Liu},
+         familyi={L\bibinitperiod},
+         given={Yunhao},
+         giveni={Y\bibinitperiod},
+      }}%
+      {{hash=WC}{%
+         family={Wu},
+         familyi={W\bibinitperiod},
+         given={Chenshu},
+         giveni={C\bibinitperiod},
+      }}%
+      {{hash=YZ}{%
+         family={Yang},
+         familyi={Y\bibinitperiod},
+         given={Zheng},
+         giveni={Z\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{ZY+2}
+    \strng{fullhash}{ZYZYQKZGLYWCYZ1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{booktitle}{Proceedings of the {ACM} on Interactive, Mobile, Wearable and Ubiquitous Technologies ({IMWUT})}
+    \field{number}{3}
+    \field{pages}{1\bibrangedash 26}
+    \field{title}{{FarSense}: Pushing the Range Limit of {WiFi}-Based Respiration Sensing With {CSI} Ratio of Two Antennas}
+    \field{volume}{3}
+    \field{year}{2019}
+  \endentry
+
+  \entry{zheng2019zero}{inproceedings}{}{}
+    \name{author}{7}{}{%
+      {{hash=ZY}{%
+         family={Zheng},
+         familyi={Z\bibinitperiod},
+         given={Yue},
+         giveni={Y\bibinitperiod},
+      }}%
+      {{hash=ZY}{%
+         family={Zhang},
+         familyi={Z\bibinitperiod},
+         given={Yi},
+         giveni={Y\bibinitperiod},
+      }}%
+      {{hash=QK}{%
+         family={Qian},
+         familyi={Q\bibinitperiod},
+         given={Kun},
+         giveni={K\bibinitperiod},
+      }}%
+      {{hash=ZG}{%
+         family={Zhang},
+         familyi={Z\bibinitperiod},
+         given={Guidong},
+         giveni={G\bibinitperiod},
+      }}%
+      {{hash=LY}{%
+         family={Liu},
+         familyi={L\bibinitperiod},
+         given={Yunhao},
+         giveni={Y\bibinitperiod},
+      }}%
+      {{hash=WC}{%
+         family={Wu},
+         familyi={W\bibinitperiod},
+         given={Chenshu},
+         giveni={C\bibinitperiod},
+      }}%
+      {{hash=YZ}{%
+         family={Yang},
+         familyi={Y\bibinitperiod},
+         given={Zheng},
+         giveni={Z\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{ZY+3}
+    \strng{fullhash}{ZYZYQKZGLYWCYZ2}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{booktitle}{Proceedings of the 17th Annual International Conference on Mobile Systems, Applications, and Services ({MobiSys})}
+    \field{pages}{313\bibrangedash 325}
+    \field{title}{Zero-Effort Cross-Domain Gesture Recognition With {Wi-Fi}}
+    \field{year}{2019}
+  \endentry
+
+  \entry{anduril_eagleeye}{misc}{}{}
+    \name{author}{1}{}{%
+      {{hash=A}{%
+         family={{Anduril Industries}},
+         familyi={A\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{A1}
+    \strng{fullhash}{A1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{howpublished}{\url{https://www.anduril.com/}}
+    \field{note}{Product overview; accessed 2026}
+    \field{title}{{EagleEye}: Mission-Configurable Soldier System}
+    \field{year}{2024}
+  \endentry
+
+  \entry{nabati2021centerfusion}{inproceedings}{}{}
+    \name{author}{2}{}{%
+      {{hash=NR}{%
+         family={Nabati},
+         familyi={N\bibinitperiod},
+         given={Ramin},
+         giveni={R\bibinitperiod},
+      }}%
+      {{hash=QH}{%
+         family={Qi},
+         familyi={Q\bibinitperiod},
+         given={Hairong},
+         giveni={H\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{NRQH1}
+    \strng{fullhash}{NRQH1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{booktitle}{Proceedings of the {IEEE/CVF} Winter Conference on Applications of Computer Vision ({WACV})}
+    \field{pages}{1527\bibrangedash 1536}
+    \field{title}{{CenterFusion}: Center-Based Radar and Camera Fusion for {3D} Object Detection}
+    \field{year}{2021}
+  \endentry
+
+  \entry{chadwick2019distantvehicle}{inproceedings}{}{}
+    \name{author}{3}{}{%
+      {{hash=CS}{%
+         family={Chadwick},
+         familyi={C\bibinitperiod},
+         given={Simon},
+         giveni={S\bibinitperiod},
+      }}%
+      {{hash=MW}{%
+         family={Maddern},
+         familyi={M\bibinitperiod},
+         given={Will},
+         giveni={W\bibinitperiod},
+      }}%
+      {{hash=NP}{%
+         family={Newman},
+         familyi={N\bibinitperiod},
+         given={Paul},
+         giveni={P\bibinitperiod},
+      }}%
+    }
+    \list{organization}{1}{%
+      {IEEE}%
+    }
+    \strng{namehash}{CSMWNP1}
+    \strng{fullhash}{CSMWNP1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{booktitle}{2019 International Conference on Robotics and Automation ({ICRA})}
+    \field{pages}{8311\bibrangedash 8317}
+    \field{title}{Distant Vehicle Detection Using Radar and Vision}
+    \field{year}{2019}
+  \endentry
+
+  \entry{redmon2016yolo}{inproceedings}{}{}
+    \name{author}{4}{}{%
+      {{hash=RJ}{%
+         family={Redmon},
+         familyi={R\bibinitperiod},
+         given={Joseph},
+         giveni={J\bibinitperiod},
+      }}%
+      {{hash=DS}{%
+         family={Divvala},
+         familyi={D\bibinitperiod},
+         given={Santosh},
+         giveni={S\bibinitperiod},
+      }}%
+      {{hash=GR}{%
+         family={Girshick},
+         familyi={G\bibinitperiod},
+         given={Ross},
+         giveni={R\bibinitperiod},
+      }}%
+      {{hash=FA}{%
+         family={Farhadi},
+         familyi={F\bibinitperiod},
+         given={Ali},
+         giveni={A\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{RJ+1}
+    \strng{fullhash}{RJDSGRFA1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{booktitle}{Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR)}
+    \field{pages}{779\bibrangedash 788}
+    \field{title}{You Only Look Once: Unified, Real-Time Object Detection}
+    \field{year}{2016}
+  \endentry
+
+  \entry{jocher2023yolov8}{misc}{}{}
+    \name{author}{3}{}{%
+      {{hash=JG}{%
+         family={Jocher},
+         familyi={J\bibinitperiod},
+         given={Glenn},
+         giveni={G\bibinitperiod},
+      }}%
+      {{hash=CA}{%
+         family={Chaurasia},
+         familyi={C\bibinitperiod},
+         given={Ayush},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=QJ}{%
+         family={Qiu},
+         familyi={Q\bibinitperiod},
+         given={Jing},
+         giveni={J\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{JGCAQJ1}
+    \strng{fullhash}{JGCAQJ1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{howpublished}{\url{https://github.com/ultralytics/ultralytics}}
+    \field{note}{Software release; accessed 2026}
+    \field{title}{{YOLOv8} by {Ultralytics}}
+    \field{year}{2023}
+  \endentry
+
+  \entry{wojke2017deepsort}{inproceedings}{}{}
+    \name{author}{3}{}{%
+      {{hash=WN}{%
+         family={Wojke},
+         familyi={W\bibinitperiod},
+         given={Nicolai},
+         giveni={N\bibinitperiod},
+      }}%
+      {{hash=BA}{%
+         family={Bewley},
+         familyi={B\bibinitperiod},
+         given={Alex},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=PD}{%
+         family={Paulus},
+         familyi={P\bibinitperiod},
+         given={Dietrich},
+         giveni={D\bibinitperiod},
+      }}%
+    }
+    \list{organization}{1}{%
+      {IEEE}%
+    }
+    \strng{namehash}{WNBAPD1}
+    \strng{fullhash}{WNBAPD1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{booktitle}{2017 IEEE International Conference on Image Processing (ICIP)}
+    \field{pages}{3645\bibrangedash 3649}
+    \field{title}{Simple Online and Realtime Tracking with a Deep Association Metric}
+    \field{year}{2017}
+  \endentry
+
+  \entry{zhang2022bytetrack}{inproceedings}{}{}
+    \name{author}{9}{}{%
+      {{hash=ZY}{%
+         family={Zhang},
+         familyi={Z\bibinitperiod},
+         given={Yifu},
+         giveni={Y\bibinitperiod},
+      }}%
+      {{hash=SP}{%
+         family={Sun},
+         familyi={S\bibinitperiod},
+         given={Peize},
+         giveni={P\bibinitperiod},
+      }}%
+      {{hash=JY}{%
+         family={Jiang},
+         familyi={J\bibinitperiod},
+         given={Yi},
+         giveni={Y\bibinitperiod},
+      }}%
+      {{hash=YD}{%
+         family={Yu},
+         familyi={Y\bibinitperiod},
+         given={Dongdong},
+         giveni={D\bibinitperiod},
+      }}%
+      {{hash=WF}{%
+         family={Weng},
+         familyi={W\bibinitperiod},
+         given={Fucheng},
+         giveni={F\bibinitperiod},
+      }}%
+      {{hash=YZ}{%
+         family={Yuan},
+         familyi={Y\bibinitperiod},
+         given={Zehuan},
+         giveni={Z\bibinitperiod},
+      }}%
+      {{hash=LP}{%
+         family={Luo},
+         familyi={L\bibinitperiod},
+         given={Ping},
+         giveni={P\bibinitperiod},
+      }}%
+      {{hash=LW}{%
+         family={Liu},
+         familyi={L\bibinitperiod},
+         given={Wenyu},
+         giveni={W\bibinitperiod},
+      }}%
+      {{hash=WX}{%
+         family={Wang},
+         familyi={W\bibinitperiod},
+         given={Xinggang},
+         giveni={X\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{ZY+1}
+    \strng{fullhash}{ZYSPJYYDWFYZLPLWWX1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{booktitle}{European Conference on Computer Vision (ECCV)}
+    \field{title}{{ByteTrack}: Multi-Object Tracking by Associating Every Detection Box}
+    \field{year}{2022}
+  \endentry
+
+  \entry{richards2014principles}{book}{}{}
+    \name{author}{3}{}{%
+      {{hash=RMA}{%
+         family={Richards},
+         familyi={R\bibinitperiod},
+         given={Mark\bibnamedelima A.},
+         giveni={M\bibinitperiod\bibinitdelim A\bibinitperiod},
+      }}%
+      {{hash=SJA}{%
+         family={Scheer},
+         familyi={S\bibinitperiod},
+         given={James\bibnamedelima A.},
+         giveni={J\bibinitperiod\bibinitdelim A\bibinitperiod},
+      }}%
+      {{hash=HWA}{%
+         family={Holm},
+         familyi={H\bibinitperiod},
+         given={William\bibnamedelima A.},
+         giveni={W\bibinitperiod\bibinitdelim A\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {SciTech Publishing}%
+    }
+    \strng{namehash}{RMASJAHWA1}
+    \strng{fullhash}{RMASJAHWA1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{title}{Principles of Modern Radar: Basic Principles}
+    \field{year}{2014}
+  \endentry
+
+  \entry{skolnik2008radar}{book}{}{}
+    \name{author}{1}{}{%
+      {{hash=SMI}{%
+         family={Skolnik},
+         familyi={S\bibinitperiod},
+         given={Merrill\bibnamedelima I.},
+         giveni={M\bibinitperiod\bibinitdelim I\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {McGraw-Hill}%
+    }
+    \strng{namehash}{SMI1}
+    \strng{fullhash}{SMI1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{edition}{3rd}
+    \field{title}{Radar Handbook}
+    \field{year}{2008}
+  \endentry
+
+  \entry{ld2410datasheet}{misc}{}{}
+    \name{author}{1}{}{%
+      {{hash=H}{%
+         family={{HiLink Electronics}},
+         familyi={H\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{H1}
+    \strng{fullhash}{H1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{howpublished}{Manufacturer datasheet, available via Robu.in distribution}
+    \field{note}{Accessed 2026}
+    \field{title}{{LD2410} 24~{GHz} mm{W}ave Human Presence Sensor: Datasheet and Communication Protocol}
+    \field{year}{2023}
+  \endentry
+
+  \entry{patole2017automotive}{article}{}{}
+    \name{author}{4}{}{%
+      {{hash=PSM}{%
+         family={Patole},
+         familyi={P\bibinitperiod},
+         given={Sujeet\bibnamedelima Milind},
+         giveni={S\bibinitperiod\bibinitdelim M\bibinitperiod},
+      }}%
+      {{hash=TM}{%
+         family={Torlak},
+         familyi={T\bibinitperiod},
+         given={Murat},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=WD}{%
+         family={Wang},
+         familyi={W\bibinitperiod},
+         given={Dan},
+         giveni={D\bibinitperiod},
+      }}%
+      {{hash=AM}{%
+         family={Ali},
+         familyi={A\bibinitperiod},
+         given={Murtaza},
+         giveni={M\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{PSM+1}
+    \strng{fullhash}{PSMTMWDAM1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{number}{2}
+    \field{pages}{22\bibrangedash 35}
+    \field{title}{Automotive Radars: A Review of Signal Processing Techniques}
+    \field{volume}{34}
+    \field{journaltitle}{IEEE Signal Processing Magazine}
+    \field{year}{2017}
+  \endentry
+
+  \entry{santra2020short}{article}{}{}
+    \name{author}{2}{}{%
+      {{hash=SA}{%
+         family={Santra},
+         familyi={S\bibinitperiod},
+         given={Avik},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=HS}{%
+         family={Hazra},
+         familyi={H\bibinitperiod},
+         given={Souvik},
+         giveni={S\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{SAHS1}
+    \strng{fullhash}{SAHS1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{pages}{125623\bibrangedash 125633}
+    \field{title}{Short-Range Radar-Based Gesture Recognition System Using {3D} {CNN} With Triplet Loss}
+    \field{volume}{7}
+    \field{journaltitle}{IEEE Access}
+    \field{year}{2020}
+  \endentry
+
+  \entry{durrant2016multisensor}{book}{}{}
+    \name{editor}{1}{}{%
+      {{hash=FH}{%
+         family={Fourati},
+         familyi={F\bibinitperiod},
+         given={Hassen},
+         giveni={H\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {CRC Press}%
+    }
+    \strng{namehash}{FH1}
+    \strng{fullhash}{FH1}
+    \field{labelnamesource}{editor}
+    \field{labeltitlesource}{title}
+    \field{title}{Multisensor Data Fusion: From Algorithms and Architectural Design to Applications}
+    \field{year}{2016}
+  \endentry
+
+  \entry{khaleghi2013multisensor}{article}{}{}
+    \name{author}{4}{}{%
+      {{hash=KB}{%
+         family={Khaleghi},
+         familyi={K\bibinitperiod},
+         given={Bahador},
+         giveni={B\bibinitperiod},
+      }}%
+      {{hash=KA}{%
+         family={Khamis},
+         familyi={K\bibinitperiod},
+         given={Alaa},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=KFO}{%
+         family={Karray},
+         familyi={K\bibinitperiod},
+         given={Fakhreddine\bibnamedelima O.},
+         giveni={F\bibinitperiod\bibinitdelim O\bibinitperiod},
+      }}%
+      {{hash=RSN}{%
+         family={Razavi},
+         familyi={R\bibinitperiod},
+         given={Saiedeh\bibnamedelima N.},
+         giveni={S\bibinitperiod\bibinitdelim N\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{KB+1}
+    \strng{fullhash}{KBKAKFORSN1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{number}{1}
+    \field{pages}{28\bibrangedash 44}
+    \field{title}{Multisensor Data Fusion: A Review of the State-of-the-Art}
+    \field{volume}{14}
+    \field{journaltitle}{Information Fusion}
+    \field{year}{2013}
+  \endentry
+\enddatalist
+\endinput
