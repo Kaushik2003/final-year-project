@@ -1,3 +1,4 @@
+% !TeX root = main page.tex
 \documentclass[listof=totoc,a4paper,12pt,oneside,chapterprefix=true,sfdefaults=false]{scrbook}
 
 % Template Designed by Dr. Alamgir Sardar (Assistant Professor), Department of Computer Science & Engineering, Sister Nivedita University, New Town, Kolkata, India. For any discrepancy email: alamgir.s@snuniv.ac.in
@@ -51,7 +52,7 @@
 \usepackage{gensymb}           % generic symbols (e.g., degree, ohm)
 \usepackage{csquotes}          % context-sensitive quotation marks
 \usepackage{setspace}          % line spacing (single, 1.5, double)
-\usepackage{lineno}            % line numbering
+% \usepackage{lineno}            % line numbering (disabled — unused, slow)
 \usepackage{datetime}          % date and time formatting
 \usepackage[none]{hyphenat}    % Disable hyphenation
 % \usepackage{ulem}              % Underlining, strike-through, etc.
@@ -92,16 +93,16 @@
 % \usepackage[center]{caption}   % better caption formatting
 \usepackage[justification=justified]{caption}   % better caption formatting
 % \usepackage[justification=justified,singlelinecheck=false]{caption}
-\usepackage{bicaption}         % Bilingual captions for figures/tables
+% \usepackage{bicaption}         % unused — bilingual captions not needed
 \usepackage{subcaption}        % sub-figures/sub-tables with captions
 % \usepackage{subfigure}         % Sub-figures (older, now replaced by subcaption)
 \usepackage{float}             % improved float control (H option)
-\usepackage[inline]{asymptote} % vector graphics (Asymptote language)
+% \usepackage[inline]{asymptote} % disabled — runs external compiler, causes timeout
 \usepackage{tikz}              % drawing diagrams
 \usetikzlibrary{arrows,automata} % arrows, automata states
 \usetikzlibrary{calc}          % coordinate calculations in TikZ
-\usepackage{overpic}           % Place LaTeX content over pictures
-\usepackage{epsfig,color}      % EPS figures and colors
+% \usepackage{overpic}           % unused
+% \usepackage{epsfig,color}      % unused — color via xcolor if needed
 \usepackage[figuresright]{rotating} % Rotate figures/tables
 %\usepackage{psfig,epsfig}     % Obsolete graphics packages
 
@@ -125,10 +126,10 @@
 
 
 % ==================NOTES / ANNOTATIONS====================================
-\usepackage{todonotes}      % Add TODO notes in margin / inline, for \cdots
+% \usepackage{todonotes}      % disabled — unused in final document
 
 % ==================GLOSSARY===============================================
-\usepackage[nonumberlist,nogroupskip,xindy]{glossaries} % Glossary & acronyms
+% \usepackage[nonumberlist,nogroupskip,xindy]{glossaries} % disabled — xindy is slow, not used
 
 % ==================FOOTNOTES==============================================
 \usepackage[bottom]{footmisc}  % Force footnotes to appear at bottom of page
@@ -148,11 +149,13 @@
 \renewcommand{\algorithmicrequire}{\textbf{Input: }}
 \renewcommand{\algorithmicensure}{\textbf{Output: }}
 
-\usepackage{tikz}  % For drawing
+% tikz already loaded above — libraries only:
 \usetikzlibrary{positioning}
+\usetikzlibrary{fit}
+\usetikzlibrary{shapes.geometric}
 
 % Following part to show colon after Algorithm #
-\usepackage{caption}
+% caption already loaded above — just add the setup:
 \captionsetup[algorithm]{labelsep=colon}
 
 %==========================================================================
@@ -160,7 +163,7 @@
 \renewcommand{\labelitemi}{\tiny$ \color{black}\blacksquare$}  % blacksquare shaped itemized
 
 
-\usepackage[backend=biber,style=numeric, sorting=none]{biblatex}
+\usepackage[backend=biber,style=numeric,sorting=none]{biblatex}
 \addbibresource{references.bib}
 
 \hyphenpenalty=1000000
@@ -228,9 +231,9 @@
 
 
 
-   
+\input{bibtext/class file}
+
 \begin{document}
-\include{bibtext/class file}
 
 \frontmatter
 
@@ -238,13 +241,14 @@
 
 
 \begin{titlepage}
-\include{bibtext/title_page}
+\input{bibtext/title_page}
 \end{titlepage}
 
 \setcounter{page}{1}
 
 
 
+\setcounter{tocdepth}{1}
 \tableofcontents
 \listoftables
 \listoffigures
@@ -252,7 +256,6 @@
 
 \justifying
 \onehalfspacing
-% \include{bibtext/Acknowledgement}
 \include{bibtext/Abstract}
 
 \setlength{\parskip}{6pt}   % space between paragraphs
@@ -266,6 +269,8 @@
 \include{chapter3-significance}
 
 \include{chapter4-literature-review}
+
+\include{chapter4-proposed method}
 
 \include{chapter5-Research Gap Identification}
 

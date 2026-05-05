@@ -1,0 +1,62 @@
+\contentsline {chapter}{\nonumberline List of Tables}{ii}{chapter*.3}%
+\contentsline {chapter}{\nonumberline List of Figures}{iii}{chapter*.4}%
+\contentsline {chapter}{\nonumberline Abstract}{iv}{chapter*.5}%
+\contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Problem Context in India}{1}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Proposed System Overview}{1}{section.1.2}%
+\contentsline {section}{\numberline {1.3}Open-Source Repositories Used}{2}{section.1.3}%
+\contentsline {section}{\numberline {1.4}Scope and Limitations}{2}{section.1.4}%
+\contentsline {chapter}{\numberline {2}Problem Statement}{3}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Context}{3}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Limitations of Existing Systems}{3}{section.2.2}%
+\contentsline {section}{\numberline {2.3}Problem Statement}{3}{section.2.3}%
+\contentsline {section}{\numberline {2.4}Scope Boundary}{4}{section.2.4}%
+\contentsline {chapter}{\numberline {3}Significance of the Study}{5}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Overview}{5}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Academic Significance}{5}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Industrial and Operational Significance}{5}{section.3.3}%
+\contentsline {section}{\numberline {3.4}Societal Significance}{6}{section.3.4}%
+\contentsline {section}{\numberline {3.5}Beneficiaries}{7}{section.3.5}%
+\contentsline {chapter}{\numberline {4}Literature Review}{8}{chapter.4}%
+\contentsline {section}{\numberline {4.1}UAV-Based Aerial Imaging and Detection}{8}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Radar-Based Detection}{9}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Wi-Fi Channel State Information and Passive RF Sensing}{9}{section.4.3}%
+\contentsline {section}{\numberline {4.4}Multi-Modal Sensor Fusion and Edge Artificial Intelligence}{10}{section.4.4}%
+\contentsline {section}{\numberline {4.5}Synthesis}{10}{section.4.5}%
+\contentsline {chapter}{\numberline {5}Proposed Methodology}{11}{chapter.5}%
+\contentsline {section}{\numberline {5.1}System Architecture}{11}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Hardware Subsystem}{11}{section.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}Airframe and Flight Controller}{11}{subsection.5.2.1}%
+\contentsline {subsection}{\numberline {5.2.2}Sensor Payload}{12}{subsection.5.2.2}%
+\contentsline {section}{\numberline {5.3}Software Stack}{12}{section.5.3}%
+\contentsline {subsection}{\numberline {5.3.1}Drone-Side Software (Raspberry Pi 4)}{12}{subsection.5.3.1}%
+\contentsline {subsection}{\numberline {5.3.2}Backend Server}{13}{subsection.5.3.2}%
+\contentsline {subsection}{\numberline {5.3.3}War-Room Dashboard (React + OpenLayers)}{13}{subsection.5.3.3}%
+\contentsline {subsection}{\numberline {5.3.4}Soldier Android App (React Native + ARCore)}{13}{subsection.5.3.4}%
+\contentsline {section}{\numberline {5.4}Eight-Layer AI Stack}{13}{section.5.4}%
+\contentsline {section}{\numberline {5.5}Radar--Vision Fusion Model}{14}{section.5.5}%
+\contentsline {subsection}{\numberline {5.5.1}Input Feature Vector}{14}{subsection.5.5.1}%
+\contentsline {subsection}{\numberline {5.5.2}Model Architecture and Training}{15}{subsection.5.5.2}%
+\contentsline {section}{\numberline {5.6}End-to-End Data Flow}{15}{section.5.6}%
+\contentsline {section}{\numberline {5.7}Evaluation Plan}{15}{section.5.7}%
+\contentsline {chapter}{\numberline {6}Research Gap Identification}{17}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Summary of Existing Work}{17}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Identified Research Gaps}{17}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Central Research Gap Statement}{19}{section.6.3}%
+\contentsline {section}{\numberline {6.4}Why the Gap is Researchable}{19}{section.6.4}%
+\contentsline {section}{\numberline {6.5}Boundary Between Gap and Scope}{19}{section.6.5}%
+\contentsline {chapter}{\numberline {7}Objectives}{20}{chapter.7}%
+\contentsline {section}{\numberline {7.1}Main Objective}{20}{section.7.1}%
+\contentsline {section}{\numberline {7.2}Specific Objectives}{20}{section.7.2}%
+\contentsline {chapter}{\numberline {8}Work Plan}{23}{chapter.8}%
+\contentsline {section}{\numberline {8.1}Overview}{23}{section.8.1}%
+\contentsline {section}{\numberline {8.2}Project-I (Months 1--5)}{23}{section.8.2}%
+\contentsline {subsection}{\numberline {8.2.1}Phase 1: Drone Build and Sensor Validation (Months 1--3)}{23}{subsection.8.2.1}%
+\contentsline {subsection}{\numberline {8.2.2}Phase 2: Edge AI and Radar Processing (Months 4--5)}{23}{subsection.8.2.2}%
+\contentsline {section}{\numberline {8.3}Project-II (Months 6--12)}{24}{section.8.3}%
+\contentsline {subsection}{\numberline {8.3.1}Phase 3: Backend and Behavior Analysis (Months 6--7)}{24}{subsection.8.3.1}%
+\contentsline {subsection}{\numberline {8.3.2}Phase 4: Fusion MLP and Evaluation (Months 7--8)}{24}{subsection.8.3.2}%
+\contentsline {subsection}{\numberline {8.3.3}Phase 5: War-Room Dashboard (Months 8--9)}{24}{subsection.8.3.3}%
+\contentsline {subsection}{\numberline {8.3.4}Phase 6: Soldier Mobile Application (Months 10--11)}{25}{subsection.8.3.4}%
+\contentsline {subsection}{\numberline {8.3.5}Phase 7: Integration and Final Evaluation (Month 12)}{25}{subsection.8.3.5}%
+\providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

@@ -1,9 +1,8 @@
+% !TeX root = ../main page.tex
 \chapter{Objectives}
 \label{Objectives}
 
-
-%----------Focus on the following points during discusion------------
-
+%----------Focus on the following points during discussion------------
 % Main objective (1–2 lines)
 % Specific objectives (bullet points), such as:
 % To analyze…
@@ -12,5 +11,49 @@
 % To evaluate…
 
 
+\section{Main Objective}
+To design, develop, and evaluate a low-cost, modular, multi-modal aerial surveillance system that integrates UAV-borne visible-spectrum imaging with 24~GHz millimetre-wave radar-based detection, fuses both streams using edge artificial intelligence on a Raspberry~Pi~4 companion computer into a unified threat-probability score, performs rule-based behavior analysis on the fused tracks, and presents the output through an operator war-room dashboard and a soldier-facing Augmented Reality mobile application --- thereby demonstrating enhanced situational awareness over either single-modality baseline in an empirically evaluated, reproducible, open-source prototype.
 
+\section{Specific Objectives}
 
+\begin{enumerate}[label=\textbf{O\arabic*.}, leftmargin=*, itemsep=4pt]
+
+    \item \textbf{To study and analyse} state-of-the-art techniques in UAV-based aerial detection (YOLOv8-pose), multi-object tracking (ByteTrack), millimetre-wave radar signal processing (CFAR, MTI, Doppler-FFT), passive Wi-Fi CSI sensing (RuView reference), and multi-modal feature-level fusion, including a detailed review of the algorithmic patterns available in the PLFM\_RADAR and RuView open-source projects.
+
+    \item \textbf{To design} the four-component system architecture comprising (i)~an airborne F450 quadcopter with multi-sensor payload and Raspberry~Pi~4 companion computer, (ii)~a backend WebSocket and MQTT server, (iii)~a war-room dashboard on top of NASA Worldview (React 19 + OpenLayers 10.9), and (iv)~a soldier-facing Android application in React Native with Google ARCore, establishing all interface contracts (data formats, message schemas, WebSocket event types) before implementation begins.
+
+    \item \textbf{To implement the physical drone} including the F450 frame assembly, 2212 brushless motors, 30~A Electronic Speed Controllers (ESCs), Pixhawk~2.4.8 flight controller with ArduPilot, 3S/4S LiPo battery system, and 3D-printed sensor mounts for the Raspberry~Pi~Camera Module v2 and LD2410 radar, followed by bench validation of each sensor individually and hover-stability testing.
+
+    \item \textbf{To implement the on-drone edge-inference stack} including YOLOv8-pose human detection with 17-keypoint Common Objects in Context (COCO) posture estimation, ByteTrack multi-object tracking with persistent identifiers (T-01, T-02, \ldots) and Kalman-filter position prediction, and a Doppler--Constant False Alarm Rate (CFAR)--Moving Target Indication (MTI) signal-processing chain on the LD2410 UART serial output.
+
+    \item \textbf{To design and implement the radar--vision fusion Multi-Layer Perceptron (MLP)} --- a three-hidden-layer fully-connected network (64$\to$32$\to$16 units, ReLU activations, sigmoid output) trained on a self-collected field dataset of approximately 500 labelled samples (positive: humans walking/running/crouching; negative: wind-driven foliage, animals, vehicles) to produce a threat probability $p \in [0, 1]$ from six input features: radar Doppler velocity, radar signal strength, YOLO confidence, bounding-box area, track duration, and track displacement rate.
+
+    \item \textbf{To implement the backend behavior-analysis engine} operating on fused multi-modal tracks to raise colour-coded alarms for:
+    \begin{itemize}
+        \item Loitering: same track identifier in a zone for more than $N$ seconds (Yellow).
+        \item Perimeter breach: track enters a GPS-defined restricted polygon (Red).
+        \item Running: track displacement per frame exceeds a threshold (Orange).
+        \item Group formation: three or more track identifiers converge within a defined radius (Yellow).
+        \item Person-down: track keypoints collapse to a horizontal plane (Medical).
+    \end{itemize}
+    Along with a Kalman-filter trajectory predictor that extrapolates target position 5~seconds forward, rendered as dotted predicted paths on both the war-room map and the soldier AR view.
+
+    \item \textbf{To implement the war-room dashboard} on top of the NASA Worldview React/OpenLayers codebase, adding: (i)~a drone GPS track as a vector layer on satellite imagery, (ii)~detection-event markers with threat-probability colour coding, (iii)~a live MJPEG camera-feed panel, (iv)~audio--visual alarms with severity thresholds, (v)~an optional Night-Vision-Goggle (NVG)/Forward-Looking Infrared (FLIR) OpenLayers canvas shader for demo effect, and (vi)~a Large Language Model (LLM) tactical query interface powered by the Claude API with function-calling over the SQL detection database.
+
+    \item \textbf{To implement the soldier-facing Android application} using React Native and Google ARCore, providing: (i)~live MJPEG drone camera feed, (ii)~AR detection markers overlaid on the device camera view, (iii)~a tactical mini-map showing drone and soldier positions, (iv)~real-time threat alert notifications matching the war-room alarms, (v)~a compass bearing to the nearest detected threat, (vi)~drone battery level and status indicators, and (vii)~Text-to-Speech voice alerts.
+
+    \item \textbf{To evaluate the system} using the following metrics:
+    \begin{itemize}
+        \item Detection: precision, recall, $F_1$ score for vision-only, radar-only, and fused-MLP detectors on the field-collected test split.
+        \item Tracking: identity-switch count per minute and track continuity across representative clips.
+        \item Latency: end-to-end time from sensor frame capture to war-room alarm display (target $<$500~ms prototype, $<$250~ms final).
+        \item Behavior analysis: confusion matrix over five alarm classes.
+        \item LLM interface: query-correctness rate on a fixed 20-query evaluation battery.
+        \item Robustness: $F_1$ score degradation between clear and degraded-visibility (low-light, partial foliage) conditions.
+    \end{itemize}
+
+    \item \textbf{To release all project outputs} as an open-source repository including: drone firmware (ArduPilot configuration), RPi~4 edge-inference code (Python), backend server code (Python/Node.js), war-room dashboard source (React/JavaScript), soldier AR app source (React Native), fusion-MLP model weights (ONNX), field dataset (annotated JSONL), Bill of Materials, wiring diagrams, and 3D-printable sensor-mount STL files.
+
+    \item[\textbf{O11.}] \textbf{(Stretch) To investigate radar micro-Doppler vital-signs detection} from an airborne platform using the LD2410 at close range ($<$5~m), targeting the detection of stationary but breathing humans (breathing frequency $\approx 0.3$~Hz micro-Doppler signature) behind light foliage or obstacles where YOLOv8-pose yields no detection, and to compare performance against the RuView Wi-Fi CSI vital-signs extraction approach as a conceptual baseline.
+
+\end{enumerate}

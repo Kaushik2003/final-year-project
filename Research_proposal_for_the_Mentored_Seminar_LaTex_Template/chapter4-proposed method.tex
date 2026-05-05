@@ -1,13 +1,215 @@
+% !TeX root = ../main page.tex
 \chapter{Proposed Methodology}
+\label{Proposed_Methodology}
 
-\textit{\textcolor{red}{Write a brief idea about your proposed methodology then It is mandatory to Insert a clear Block Diagram/ system architecture diagram (which one is applicable) in this chapter. A sample example is shown below:}}
-
-
-%----------Focus on the following points during discusion------------
-
+%----------Focus on the following points during discussion------------
 % Describe the proposed approach or method
-% Explain:
-%     Tools/techniques used
-%     Steps involved
-% Include a diagram (mandatory):
-%     Block Diagram / System Architecture / Workflow
+% Tools/techniques used
+% Steps involved
+% Block Diagram / System Architecture / Workflow (mandatory)
+
+
+
+\section{System Architecture}
+The high-level system architecture is illustrated in Figure~\ref{fig:system_architecture}. Sensors on the drone feed the companion computer, which performs edge inference and streams data to the backend. The backend aggregates streams, runs behavior analysis, maintains a Structured Query Language (SQL) detection database, and broadcasts to the two operator interfaces.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[
+        node distance=0.9cm and 1.1cm,
+        block/.style={rectangle, draw, rounded corners, align=center,
+                     minimum width=3.2cm, minimum height=0.9cm, font=\small},
+        sensor/.style={rectangle, draw, dashed, rounded corners, align=center,
+                       minimum width=2.5cm, minimum height=0.7cm, font=\footnotesize},
+        arrow/.style={-latex, thick}
+    ]
+        % Drone-side sensors
+        \node[sensor] (cam)   {Pi Camera v2};
+        \node[sensor, right=of cam] (radar) {LD2410\\24~GHz Radar};
+        \node[sensor, right=of radar] (gps)   {M8N GPS};
+
+        % Companion compute
+        \node[block, below=of radar, fill=blue!8] (rpi) {Raspberry~Pi~4 (Edge AI)\\YOLOv8-pose + ByteTrack\\Doppler/CFAR/MTI + Fusion MLP};
+
+        \draw[arrow] (cam)   -- (rpi);
+        \draw[arrow] (radar) -- (rpi);
+        \draw[arrow] (gps)   -- (rpi);
+
+        % Backend
+        \node[block, below=of rpi, fill=green!8] (backend) {Backend Server (Python/Node.js)\\WebSocket + MQTT Broker\\Behavior Analysis + SQL DB + LLM};
+
+        \draw[arrow] (rpi) -- node[right, font=\footnotesize]{WebSocket / MQTT} (backend);
+
+        % Outputs
+        \node[block, below left=1.0cm and 0.2cm of backend, fill=orange!10] (dash)
+            {War-Room Dashboard\\(NASA Worldview + React)\\LLM Query Interface};
+        \node[block, below right=1.0cm and 0.2cm of backend, fill=orange!10] (mobile)
+            {Soldier Android App\\(React Native + ARCore)\\Voice Alerts};
+
+        \draw[arrow] (backend) -- (dash);
+        \draw[arrow] (backend) -- (mobile);
+
+        % Drone enclosure
+        \node[draw, dashed, rounded corners, fit=(cam)(radar)(gps)(rpi),
+              inner sep=0.3cm,
+              label={[font=\small\bfseries]above:Drone (F450 Quadcopter + Pixhawk + ArduPilot)}] {};
+    \end{tikzpicture}
+    \caption{High-level system architecture of the proposed multi-modal aerial surveillance platform.}
+    \label{fig:system_architecture}
+\end{figure}
+
+\section{Hardware Subsystem}
+
+\subsection{Airframe and Flight Controller}
+The drone is built around an F450 quadcopter frame carrying four 2212-class brushless motors controlled by four 30~A Electronic Speed Controllers (ESCs). A Pixhawk~2.4.8 flight controller running ArduPilot provides stable attitude control, GPS-based position hold, autonomous waypoint navigation, Return-To-Launch (RTL), and MAVLink telemetry. A 3S/4S 3000~mAh Lithium-Polymer (LiPo) battery provides flight power; a dedicated Battery Eliminator Circuit (BEC) supplies clean 5~V to the Raspberry~Pi~4. All sensor mounts are 3D-printed from Polylactic Acid (PLA) using a friend's printer, keeping machining cost to zero.
+
+\subsection{Sensor Payload}
+The sensor payload consists of three units mounted below the frame in a fixed forward-looking configuration:
+\begin{enumerate}[label=(\arabic*).]
+    \item \textbf{Raspberry~Pi Camera Module v2} (8~MP, Sony IMX219): provides a 1080p visible-spectrum video stream at up to 30~fps, encoded as Motion JPEG (MJPEG) for low-latency streaming.
+    \item \textbf{HiLink LD2410 24~GHz mmWave radar}: powered from the BEC, connected to the Raspberry~Pi~4 over UART at 256{,}000 baud. The module outputs 13-byte basic data frames containing energy presence/movement flags and range data at up to 20~Hz, which are parsed and fed into the Doppler/CFAR/MTI processing chain.
+    \item \textbf{u-blox M8N GPS module}: provides 10~Hz position fixes over UART to both the Pixhawk (for flight control) and the Raspberry~Pi~4 (for telemetry tagging of detection events).
+\end{enumerate}
+
+The overall hardware expenditure for the proposed multi-modal surveillance system 
+is estimated to be in the range of \textbf{INR 9,800 to INR 11,700}, considering 
+baseline components and typical market prices.
+
+\section{Software Stack}
+
+\subsection{Drone-Side Software (Raspberry Pi 4)}
+A multi-threaded Python pipeline handles sensing, inference, and communication:
+\begin{itemize}
+    \item \textbf{Camera}: captures Pi Camera v2 frames, encodes (MJPEG), publishes via MQTT.
+    \item \textbf{Radar}: parses LD2410 data, applies MTI + CFAR, outputs detections.
+    \item \textbf{Inference}: YOLOv8-pose (ONNX, quantised) + ByteTrack for tracking; fused with radar features via an MLP.
+    \item \textbf{GPS}: streams M8N telemetry as GeoJSON at 10~Hz.
+\end{itemize}
+
+\subsection{Backend Server}
+Implemented using FastAPI/Node.js with MQTT + WebSocket integration:
+\begin{itemize}
+    \item Real-time data aggregation and broadcast.
+    \item Behavior analysis and 5~s trajectory prediction (Kalman filter).
+    \item SQL database for detection events.
+    \item LLM query interface for natural-language analytics.
+\end{itemize}
+
+\subsection{War-Room Dashboard (React + OpenLayers)}
+Provides real-time situational awareness:
+\begin{itemize}
+    \item Live drone tracking, detections, and predicted paths.
+    \item MJPEG video feed and alert panel.
+    \item LLM-based query interface.
+    \item Optional visual layers (ADS-B aircraft, satellite tracks, NVG/FLIR effects).
+\end{itemize}
+
+\subsection{Soldier Android App (React Native + ARCore)}
+Delivers field-level intelligence:
+\begin{itemize}
+    \item AR-based visualization of detections using GPS projection.
+    \item Mini-map, compass guidance, and live alerts.
+    \item Voice notifications via Android TTS.
+\end{itemize}
+
+\section{Eight-Layer AI Stack}
+Table~\ref{tab:ai_stack} summarises the full artificial-intelligence stack.
+
+\begin{table}[H]
+\centering
+\caption{Eight-layer AI stack with deployment location and implementation details.}
+\label{tab:ai_stack}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|c|p{4cm}|c|p{5.5cm}|}
+\hline
+\thead{Layer} & \thead{Function} & \thead{Location} & \thead{Implementation} \\ \hline
+1 & Person detection + posture & Drone (RPi~4) & YOLOv8-pose, ONNX Runtime, INT8; 17-keypoint COCO skeleton. \\ \hline
+2 & Multi-object tracking & Drone (RPi~4) & ByteTrack; Kalman prediction; persistent IDs. \\ \hline
+3 & Behavior analysis & Backend server & Rule engine: 5 alarm types; GPS geofence polygons. \\ \hline
+4 & Radar--vision fusion MLP & Drone (RPi~4) & 6 features $\to$ 64 $\to$ 32 $\to$ 16 $\to$ sigmoid; ${\sim}3{,}500$ params. \\ \hline
+5 & LLM tactical query & Backend / Dashboard & Claude API + function-calling over SQL detection DB. \\ \hline
+6 & Trajectory prediction & Backend server & Kalman extrapolation 5~s; dotted path on map and AR. \\ \hline
+7 & (Stretch) Vital signs & Drone (RPi~4) & Micro-Doppler ${\approx}0.3$~Hz FFT on LD2410 close-range output. \\ \hline
+8 & Voice alerts & Soldier app & Android TTS; triggered by WebSocket alarm events. \\ \hline
+\end{tabular}
+\end{table}
+
+\section{Radar--Vision Fusion Model}
+\label{sec:fusion}
+
+\subsection{Input Feature Vector}
+Let $\mathbf{x} = (x_1, x_2, x_3, x_4, x_5, x_6)^\top$ denote the feature vector for each active track, where:
+\begin{itemize}
+    \item $x_1$ = radar Doppler velocity (m~s$^{-1}$) from LD2410 processed output,
+    \item $x_2$ = radar signal strength (arbitrary units, proxy for Radar Cross Section),
+    \item $x_3$ = YOLO detection confidence $\in [0, 1]$,
+    \item $x_4$ = bounding-box area (fraction of frame area),
+    \item $x_5$ = ByteTrack track duration (seconds since track initialisation),
+    \item $x_6$ = ByteTrack track displacement rate (pixels per frame, converted to m~s$^{-1}$ using drone altitude and camera field-of-view geometry).
+\end{itemize}
+
+\subsection{Model Architecture and Training}
+The fusion model is a three-hidden-layer fully-connected Multi-Layer Perceptron (MLP):
+
+\begin{equation}
+p(\mathbf{x}) = \sigma\!\left( \mathbf{w}_4^\top \, \phi\!\left( \mathbf{W}_3 \, \phi\!\left( \mathbf{W}_2 \, \phi(\mathbf{W}_1 \mathbf{x} + \mathbf{b}_1) + \mathbf{b}_2 \right) + \mathbf{b}_3 \right) + b_4 \right)
+\label{eq:fusion_mlp}
+\end{equation}
+
+\noindent where $\phi(\cdot) = \max(0, \cdot)$ is the Rectified Linear Unit (ReLU) activation, $\mathbf{W}_i \in \mathbb{R}^{d_{i} \times d_{i-1}}$ and $\mathbf{b}_i$ are trainable parameters with hidden dimensions $d_1{=}64$, $d_2{=}32$, $d_3{=}16$, and $\sigma(z) = (1 + e^{-z})^{-1}$ is the sigmoid function producing a threat probability $p \in (0, 1)$.
+
+The model has approximately 3{,}500 trainable parameters and is trained with binary cross-entropy loss and the Adam optimiser ($\alpha = 10^{-3}$, $\beta_1 = 0.9$, $\beta_2 = 0.999$) for up to 200 epochs with early stopping on a held-out validation split (80\,/\,20 train/validation). Training data ($\approx$500 samples) is collected across two to three field sessions, with positive labels assigned to human walking/running/crouching samples and negative labels to wind-driven foliage, animals, and vehicles. The trained model is exported to ONNX format for inference on the Raspberry~Pi~4.
+
+
+\section{End-to-End Data Flow}
+Figure~\ref{fig:dataflow} summarises the end-to-end data flow from sensor capture to operator display.
+
+\begin{figure}[H]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+    step/.style={rectangle, draw, rounded corners, align=center, minimum width=3.2cm,
+                 minimum height=0.8cm, font=\small},
+    arrow/.style={-latex, thick},
+    node distance=0.4cm and 0.3cm
+]
+    \node[step, fill=blue!8]   (acq)    {Acquisition\\(Camera + Radar + GPS)};
+    \node[step, fill=blue!8, right=of acq]  (pre)    {Preprocessing\\(Resize, CFAR/MTI)};
+    \node[step, fill=blue!8, right=of pre]  (det)    {Detection + Tracking\\(YOLOv8 + ByteTrack)};
+    \node[step, fill=green!8, below=of det] (fuse)   {Fusion MLP\\(6 features $\to$ $p$)};
+    \node[step, fill=green!8, left=of fuse] (stream) {WebSocket / MQTT\\Streaming};
+    \node[step, fill=green!8, left=of stream](behav) {Behavior Analysis\\+ Trajectory Predict};
+    \node[step, fill=orange!10, below=of stream](out) {Dashboard + Soldier App\\Alarms + LLM Query};
+
+    \draw[arrow] (acq)    -- (pre);
+    \draw[arrow] (pre)    -- (det);
+    \draw[arrow] (det)    -- (fuse);
+    \draw[arrow] (fuse)   -- (stream);
+    \draw[arrow] (stream) -- (behav);
+    \draw[arrow] (behav)  -- (out);
+    \draw[arrow] (stream) -- (out);
+\end{tikzpicture}}
+\caption{End-to-end data flow from sensor acquisition to operator output.}
+\label{fig:dataflow}
+\end{figure}
+
+\section{Evaluation Plan}
+Table~\ref{tab:metrics} summarises the evaluation metrics, measurement method, and target values.
+
+\begin{table}[H]
+\centering
+\caption{Evaluation metrics, measurement methods, and targets.}
+\label{tab:metrics}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|p{3.5cm}|p{6cm}|p{4cm}|}
+\hline
+\thead{Metric} & \thead{Measurement Method} & \thead{Target} \\ \hline
+Detection precision / recall / $F_1$ & Vision-only vs.\ radar-only vs.\ fused MLP on held-out test split of field dataset. & Fused $F_1 >$ both single-modality baselines. \\ \hline
+Tracking ID switches & Count identity switches per minute on representative drone video clips. & $<$5 switches/min. \\ \hline
+End-to-end alert latency & Timestamp difference between sensor frame capture (RPi~4) and alarm display on dashboard. & $<$500~ms (prototype). \\ \hline
+Behavior alarm correctness & Confusion matrix over 5 alarm classes using annotated trial scenarios. & Precision $>$0.80 per class. \\ \hline
+LLM query correctness & Manual review of LLM-generated SQL on a fixed 20-query battery. & $\geq$85\% correct. \\ \hline
+Robustness under degraded visibility & $F_1$ delta between clear and degraded conditions (low light, partial foliage). & Fused model degrades less than vision-only. \\ \hline
+RPi~4 CPU / RAM utilisation & \texttt{htop} and \texttt{psutil} logging during full-stack operation. & CPU $<$85\%, RAM $<$1.8~GB. \\ \hline
+\end{tabular}
+\end{table}
